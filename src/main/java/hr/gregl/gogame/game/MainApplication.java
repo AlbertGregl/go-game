@@ -16,9 +16,11 @@ public class MainApplication extends Application {
         Image appIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/icon.png")));
         Scene scene = new Scene(fxmlLoader.load(), 800, 800);
 
-        stage.setTitle("いご Go");
+        stage.setTitle("いご\tGO GAME");
         stage.setScene(scene);
         stage.getIcons().add(appIcon);
+
+        System.out.println("Starting application"); // debug
 
         stage.show();
     }
