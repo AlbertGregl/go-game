@@ -104,42 +104,42 @@
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="I" textAlignment="CENTER" GridPane.columnIndex="9">
+               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="J" textAlignment="CENTER" GridPane.columnIndex="9">
                   <font>
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="J" textAlignment="CENTER" GridPane.columnIndex="10">
+               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="K" textAlignment="CENTER" GridPane.columnIndex="10">
                   <font>
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="K" textAlignment="CENTER" GridPane.columnIndex="11">
+               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="L" textAlignment="CENTER" GridPane.columnIndex="11">
                   <font>
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="L" textAlignment="CENTER" GridPane.columnIndex="12">
+               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="M" textAlignment="CENTER" GridPane.columnIndex="12">
                   <font>
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="M" textAlignment="CENTER" GridPane.columnIndex="13">
+               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="N" textAlignment="CENTER" GridPane.columnIndex="13">
                   <font>
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="N" textAlignment="CENTER" GridPane.columnIndex="14">
+               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="O" textAlignment="CENTER" GridPane.columnIndex="14">
                   <font>
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="O" textAlignment="CENTER" GridPane.columnIndex="15">
+               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="P" textAlignment="CENTER" GridPane.columnIndex="15">
                   <font>
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
                </Label>
-               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="P" textAlignment="CENTER" GridPane.columnIndex="16">
+               <Label alignment="CENTER" prefHeight="45.0" prefWidth="33.0" text="Q" textAlignment="CENTER" GridPane.columnIndex="16">
                   <font>
                      <Font name="MingLiU-ExtB" size="24.0" />
                   </font>
@@ -261,7 +261,19 @@
           <VBox fx:id="controlPanel" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER" />
         </left>
         <bottom>
-          <HBox fx:id="statusPanel" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
+          <HBox fx:id="statusPanel" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <children>
+               <Label text="Last move: ">
+                  <font>
+                     <Font name="MingLiU-ExtB" size="14.0" />
+                  </font>
+               </Label>
+               <Label fx:id="statusLabel">
+                  <font>
+                     <Font name="MingLiU-ExtB" size="14.0" />
+                  </font>
+               </Label>
+            </children></HBox>
         </bottom>
     </BorderPane>
 </VBox>

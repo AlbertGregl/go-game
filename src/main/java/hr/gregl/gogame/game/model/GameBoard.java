@@ -6,7 +6,12 @@ public class GameBoard {
     private final int[][] board;
 
     public GameBoard(int size) {
-        board = new int[size][size];
+        this.board = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                board[i][j] = 0; // empty cell
+            }
+        }
     }
 
     public int getCell(int x, int y) {
@@ -15,6 +20,18 @@ public class GameBoard {
 
     public void setCell(int x, int y, int value) {
         board[x][y] = value;
+    }
+
+    public boolean hasStone(int x, int y) {
+        return board[x][y] != 0;
+    }
+
+    public int[][] getBoardCopy() {
+        int[][] copy = new int[board.length][];
+        for (int i = 0; i < board.length; i++) {
+            copy[i] = board[i].clone();
+        }
+        return copy;
     }
 
 }

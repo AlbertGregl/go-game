@@ -20,8 +20,6 @@ public class MainApplication extends Application {
         stage.setScene(scene);
         stage.getIcons().add(appIcon);
 
-        System.out.println("Starting application"); // debug
-
         stage.show();
     }
 

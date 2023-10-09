@@ -4,6 +4,7 @@ package hr.gregl.gogame.game;
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -14,15 +15,16 @@ import java.util.Objects;
 
 public class MainController {
 
-    private final GameLogic gameLogic = new GameLogic(GameConfig.getInstance().getBoardSize());
+    private final GameLogic gameLogic = new GameLogic();
 
     @FXML
     private GridPane boardGrid;
-
     @FXML
     private VBox controlPanel;
     @FXML
     private HBox statusPanel;
+    @FXML
+    private Label statusLabel;
 
     @FXML
     public void initialize() {
@@ -46,22 +48,30 @@ public class MainController {
             return;
         }
 
-        System.out.println("Handling click at row: " + row + ", col: " + col); // debug
-
         int gameRow = row - 1;
         int gameCol = col - 1;
 
-        int currentPlayer = gameLogic.getCurrentPlayer();
-        gameLogic.placeStone(gameRow, gameCol, currentPlayer);
+        int currentPlayerBeforeMove = gameLogic.getCurrentPlayer();
+
+        if (gameLogic.isValidMove(gameRow, gameCol, currentPlayerBeforeMove)) {
+            System.out.println("Invalid move by " + currentPlayerBeforeMove + " at (" + gameRow + "," + gameCol + ")"); // debug
+            return;
+        }
+
+        gameLogic.placeStone(gameRow, gameCol, currentPlayerBeforeMove);
+
+        String player = (currentPlayerBeforeMove == 1) ? "Player 1 (Black)" : "Player 2 (White)";
+        statusLabel.setText(player + " moved to " + clickedPane.getId());
 
         Circle stone = new Circle(clickedPane.getWidth() / 2, clickedPane.getHeight() / 2, clickedPane.getWidth() / 2 - 5);
-        if (currentPlayer == 1) {
+        if (currentPlayerBeforeMove == 1) {
             stone.setFill(Color.BLACK);
-        } else if (currentPlayer == 2) {
+        } else if (currentPlayerBeforeMove == 2) {
             stone.setFill(Color.WHITE);
         }
         clickedPane.getChildren().add(stone);
     }
+
 
     private void createGameBoard() {
         Image cellImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellInner.png")));
@@ -93,6 +103,7 @@ public class MainController {
             for (int j = 1; j < maxIndex; j++) {
                 Pane pane = new Pane();
                 pane.setPrefSize(200, 200);
+                pane.setId(getPaneId(i, j));
 
                 if (i == 1 && j == 1) {
                     pane.setBackground(cornerTopLeftBackground);
@@ -129,6 +140,11 @@ public class MainController {
 
     private boolean isStarPoint(int i, int j) {
         return (i == 4 || i == 10 || i == 16) && (j == 4 || j == 10 || j == 16);
+    }
+
+    private String getPaneId(int i, int j) {
+        char[] chars = "ABCDEFGHJKLMNOPQRST".toCharArray();
+        return chars[j-1] + Integer.toString(20 - i);
     }
 
 }
