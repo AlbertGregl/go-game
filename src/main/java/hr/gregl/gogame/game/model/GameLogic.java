@@ -16,6 +16,7 @@ public class GameLogic {
     private int blackCaptures = 0;
     private int whiteCaptures = 0;
 
+
     public int getBlackCaptures() {
         return blackCaptures;
     }
@@ -48,21 +49,30 @@ public class GameLogic {
         return currentPlayer;
     }
 
-
     public boolean isValidMove(int row, int col, int player) {
-        System.out.println("Checking if move is valid at (" + row + "," + col + ") for player " + player);
 
         if (gameBoard.hasStone(row, col)) {
-            System.out.println("Cell already occupied.");
+            System.out.println("Cell already occupied."); // debug
             return true;
         }
-
 
         int[][] tempBoard = gameBoard.getBoardCopy();
         tempBoard[row][col] = player;
 
         return isSuicidalMove(row, col, player, tempBoard) || violatesKoRule(tempBoard);
     }
+
+    public boolean canPlayerMove(int player) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (!isValidMove(i, j, player)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
 
     private boolean isSuicidalMove(int row, int col, int player, int[][] tempBoard) {
         boolean[][] visited = new boolean[BOARD_SIZE][BOARD_SIZE];
@@ -105,9 +115,11 @@ public class GameLogic {
         }
 
         if (player == 1) {
-            whiteCaptures += capturedStones.size();
-        } else {
+            GameConfig.getInstance().decreaseBlackStones();
             blackCaptures += capturedStones.size();
+        } else {
+            GameConfig.getInstance().decreaseWhiteStones();
+            whiteCaptures += capturedStones.size();
         }
 
         previousBoardState = gameBoard.getBoardCopy();
@@ -158,6 +170,46 @@ public class GameLogic {
             }
         }
         return group;
+    }
+
+    public int calculateScore(int player) {
+        int territory = 0;
+
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (gameBoard.getCell(i, j) == 0) {
+                    if (isSurroundedBy(i, j, player)) {
+                        territory++;
+                    }
+                }
+            }
+        }
+
+        int capturedStones = (player == 1) ? whiteCaptures : blackCaptures;
+        return territory + capturedStones;
+    }
+
+    private boolean isSurroundedBy(int x, int y, int player) {
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        for (int[] dir : directions) {
+            int nextX = x + dir[0];
+            int nextY = y + dir[1];
+            if (nextX >= 0 && nextX < BOARD_SIZE && nextY >= 0 && nextY < BOARD_SIZE) {
+                int cellValue = gameBoard.getCell(nextX, nextY);
+                if (cellValue != player && cellValue != 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean isGameOver() {
+        boolean player1CannotMove = canPlayerMove(1);
+        boolean player2CannotMove = canPlayerMove(2);
+        return player1CannotMove && player2CannotMove
+                || GameConfig.getInstance().getBlackStonesLeft() == 0
+                || GameConfig.getInstance().getWhiteStonesLeft() == 0;
     }
 
 }

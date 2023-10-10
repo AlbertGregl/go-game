@@ -6,6 +6,29 @@ public class GameConfig {
 
     private final int boardSize = 19; // for 19x19 board game
 
+    private int blackStonesLeft = 19;
+    private int whiteStonesLeft = 18;
+
+    public int getBlackStonesLeft() {
+        return blackStonesLeft;
+    }
+
+    public void decreaseBlackStones() {
+        if (blackStonesLeft > 0) {
+            blackStonesLeft--;
+        }
+    }
+
+    public int getWhiteStonesLeft() {
+        return whiteStonesLeft;
+    }
+
+    public void decreaseWhiteStones() {
+        if (whiteStonesLeft > 0) {
+            whiteStonesLeft--;
+        }
+    }
+
     private GameConfig() {}
 
     public static GameConfig getInstance() {

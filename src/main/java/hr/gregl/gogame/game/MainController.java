@@ -21,18 +21,22 @@ public class MainController {
     @FXML
     private GridPane boardGrid;
     @FXML
-    private VBox controlPanel;
-    @FXML
-    private HBox statusPanel;
-    @FXML
     private Label statusLabel;
     @FXML
     private Label blackCapturesLabel;
     @FXML
     private Label whiteCapturesLabel;
+    @FXML
+    private Label blackStonesLeftLabel;
+    @FXML
+    private Label whiteStonesLeftLabel;
+    @FXML
+    private Pane overlayPane;
+
 
     @FXML
     public void initialize() {
+        overlayPane.setVisible(false);
         createGameBoard();
     }
 
@@ -79,6 +83,30 @@ public class MainController {
         updateCaptureLabels();
 
         refreshBoard();
+
+        updateStonesLeftLabels();
+
+        gameOverCheck();
+    }
+
+    private void gameOverCheck() {
+        if (gameLogic.isGameOver()) {
+            int player1Score = gameLogic.calculateScore(1);
+            int player2Score = gameLogic.calculateScore(2);
+
+            DisplayScore(player1Score, player2Score);
+            overlayPane.setVisible(true);
+        }
+    }
+
+    private void DisplayScore(int player1Score, int player2Score) {
+        if (player1Score > player2Score) {
+            statusLabel.setText("Player 1 (Black) wins with " + player1Score + " points!");
+        } else if (player2Score > player1Score) {
+            statusLabel.setText("Player 2 (White) wins with " + player2Score + " points!");
+        } else {
+            statusLabel.setText("It's a tie!");
+        }
     }
 
 
@@ -166,11 +194,10 @@ public class MainController {
             for (int j = 0; j < GameConfig.getInstance().getBoardSize(); j++) {
                 Pane cell = getPaneFromGrid(boardGrid, i+1, j+1);
                 int cellState = gameLogic.getCellValue(i, j);
+                assert cell != null;
                 if (cellState == 0) {
-                    assert cell != null;
                     cell.getChildren().clear();
                 } else {
-                    assert cell != null;
                     Circle stone = new Circle(cell.getWidth() / 2, cell.getHeight() / 2, cell.getWidth() / 2 - 5);
                     stone.setFill(cellState == 1 ? Color.BLACK : Color.WHITE);
                     cell.getChildren().setAll(stone);
@@ -188,6 +215,11 @@ public class MainController {
             }
         }
         return null;
+    }
+
+    private void updateStonesLeftLabels() {
+        blackStonesLeftLabel.setText("Black Stones Left: " + GameConfig.getInstance().getBlackStonesLeft());
+        whiteStonesLeftLabel.setText("White Stones Left: " + GameConfig.getInstance().getWhiteStonesLeft());
     }
 
 
