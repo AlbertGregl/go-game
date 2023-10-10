@@ -297,12 +297,12 @@
                  </Label>
               </GridPane>
               <Pane fx:id="overlayPane" prefHeight="318.0" prefWidth="290.0">
-                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e0f3ff" height="660.0" opacity="0.75" stroke="BLACK"
+                 <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f1f8ff" height="660.0" opacity="0.75" stroke="BLACK"
                             strokeType="INSIDE" width="660.0"/>
                  <Label alignment="CENTER" contentDisplay="CENTER" layoutY="1.0" prefHeight="651.0" prefWidth="660.0"
                         text="GAME OVER" textAlignment="CENTER">
                     <font>
-                       <Font name="MingLiU-ExtB" size="34.0"/>
+                       <Font name="MingLiU-ExtB" size="38.0"/>
                     </font>
                  </Label>
               </Pane>

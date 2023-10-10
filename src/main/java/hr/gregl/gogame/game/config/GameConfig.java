@@ -6,8 +6,8 @@ public class GameConfig {
 
     private final int boardSize = 19; // for 19x19 board game
 
-    private int blackStonesLeft = 19;
-    private int whiteStonesLeft = 18;
+    private int blackStonesLeft = 181;
+    private int whiteStonesLeft = 180;
 
     public int getBlackStonesLeft() {
         return blackStonesLeft;
