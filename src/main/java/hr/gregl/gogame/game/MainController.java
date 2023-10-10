@@ -4,6 +4,7 @@ package hr.gregl.gogame.game;
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,10 @@ public class MainController {
     private HBox statusPanel;
     @FXML
     private Label statusLabel;
+    @FXML
+    private Label blackCapturesLabel;
+    @FXML
+    private Label whiteCapturesLabel;
 
     @FXML
     public void initialize() {
@@ -70,6 +75,10 @@ public class MainController {
             stone.setFill(Color.WHITE);
         }
         clickedPane.getChildren().add(stone);
+
+        updateCaptureLabels();
+
+        refreshBoard();
     }
 
 
@@ -146,5 +155,40 @@ public class MainController {
         char[] chars = "ABCDEFGHJKLMNOPQRST".toCharArray();
         return chars[j-1] + Integer.toString(20 - i);
     }
+
+    private void updateCaptureLabels() {
+        blackCapturesLabel.setText("Captures: " + gameLogic.getBlackCaptures());
+        whiteCapturesLabel.setText("Captures: " + gameLogic.getWhiteCaptures());
+    }
+
+    private void refreshBoard() {
+        for (int i = 0; i < GameConfig.getInstance().getBoardSize(); i++) {
+            for (int j = 0; j < GameConfig.getInstance().getBoardSize(); j++) {
+                Pane cell = getPaneFromGrid(boardGrid, i+1, j+1);
+                int cellState = gameLogic.getCellValue(i, j);
+                if (cellState == 0) {
+                    assert cell != null;
+                    cell.getChildren().clear();
+                } else {
+                    assert cell != null;
+                    Circle stone = new Circle(cell.getWidth() / 2, cell.getHeight() / 2, cell.getWidth() / 2 - 5);
+                    stone.setFill(cellState == 1 ? Color.BLACK : Color.WHITE);
+                    cell.getChildren().setAll(stone);
+                }
+            }
+        }
+    }
+
+    private Pane getPaneFromGrid(GridPane grid, int row, int col) {
+        for (Node node : grid.getChildren()) {
+            Integer rowIndex = GridPane.getRowIndex(node);
+            Integer colIndex = GridPane.getColumnIndex(node);
+            if (node instanceof Pane && rowIndex != null && colIndex != null && rowIndex == row && colIndex == col) {
+                return (Pane) node;
+            }
+        }
+        return null;
+    }
+
 
 }

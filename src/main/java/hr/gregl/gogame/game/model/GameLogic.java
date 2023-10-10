@@ -2,12 +2,31 @@ package hr.gregl.gogame.game.model;
 
 import hr.gregl.gogame.game.config.GameConfig;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 public class GameLogic {
 
     private final GameBoard gameBoard;
     private int currentPlayer = 1; // 1 - black; 2 - white
     private int[][] previousBoardState;
     private final int BOARD_SIZE;
+    private int blackCaptures = 0;
+    private int whiteCaptures = 0;
+
+    public int getBlackCaptures() {
+        return blackCaptures;
+    }
+
+    public int getWhiteCaptures() {
+        return whiteCaptures;
+    }
+
+    public int getCellValue(int x, int y) {
+        return gameBoard.getCell(x, y);
+    }
 
     public GameLogic() {
         this.BOARD_SIZE = GameConfig.getInstance().getBoardSize();
@@ -78,17 +97,67 @@ public class GameLogic {
     }
 
     public void placeStone(int row, int col, int player) {
+        gameBoard.setCell(row, col, player);
 
-        if (isValidMove(row, col, player)) {
-            return;
+        List<Point> capturedStones = findCapturedStones(row, col, player);
+        for (Point stone : capturedStones) {
+            gameBoard.setCell(stone.x, stone.y, 0);
+        }
+
+        if (player == 1) {
+            whiteCaptures += capturedStones.size();
+        } else {
+            blackCaptures += capturedStones.size();
         }
 
         previousBoardState = gameBoard.getBoardCopy();
-
-        System.out.println("Before placing stone: Current player is " + currentPlayer); // debug
-        gameBoard.setCell(row, col, player);
         currentPlayer = (currentPlayer == 1) ? 2 : 1;
-        System.out.println("After placing stone: Current player is " + currentPlayer); // debug
+    }
+
+    private List<Point> findCapturedStones(int row, int col, int player) {
+        int opponent = (player == 1) ? 2 : 1;
+        List<Point> capturedStones = new ArrayList<>();
+
+        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+        for (int[] dir : directions) {
+            int x = row + dir[0];
+            int y = col + dir[1];
+            if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE && gameBoard.getCell(x, y) == opponent) {
+                boolean[][] visited = new boolean[BOARD_SIZE][BOARD_SIZE];
+                if (!hasLiberty(x, y, opponent, visited, gameBoard.getBoardCopy())) {
+                    List<Point> group = findConnectedGroup(x, y, opponent);
+                    capturedStones.addAll(group);
+                }
+            }
+        }
+        return capturedStones;
+    }
+
+    private List<Point> findConnectedGroup(int x, int y, int player) {
+        List<Point> group = new ArrayList<>();
+        boolean[][] visited = new boolean[BOARD_SIZE][BOARD_SIZE];
+        Queue<Point> queue = new LinkedList<>();
+        Point startPoint = new Point(x, y);
+        queue.add(startPoint);
+        visited[x][y] = true;
+
+        while (!queue.isEmpty()) {
+            Point current = queue.poll();
+            group.add(current);
+
+            int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+            for (int[] dir : directions) {
+                int nextX = current.x + dir[0];
+                int nextY = current.y + dir[1];
+
+                if (nextX >= 0 && nextX < BOARD_SIZE && nextY >= 0 && nextY < BOARD_SIZE &&
+                        !visited[nextX][nextY] && gameBoard.getCell(nextX, nextY) == player) {
+                    queue.add(new Point(nextX, nextY));
+                    visited[nextX][nextY] = true;
+                }
+            }
+        }
+        return group;
     }
 
 }
