@@ -1,6 +1,7 @@
-package hr.gregl.gogame.game;
+package hr.gregl.gogame.game.controller;
 
 
+import hr.gregl.gogame.game.MainApplication;
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
 import javafx.fxml.FXML;
@@ -111,16 +112,16 @@ public class MainController {
 
 
     private void createGameBoard() {
-        Image cellImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellInner.png")));
-        Image cellImageStar = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellStarPoint.png")));
-        Image topSideImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellTopSide.png")));
-        Image bottomSideImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellBottomSide.png")));
-        Image leftSideImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellLeftSide.png")));
-        Image rightSideImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellRightSide.png")));
-        Image cornerTopLeftImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellCornerTopLeft.png")));
-        Image cornerTopRightImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellCornerTopRight.png")));
-        Image cornerBottomLeftImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellCornerBottomLeft.png")));
-        Image cornerBottomRightImage = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/boardCellCornerBottomRight.png")));
+        Image cellImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellInner.png")));
+        Image cellImageStar = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellStarPoint.png")));
+        Image topSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellTopSide.png")));
+        Image bottomSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellBottomSide.png")));
+        Image leftSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellLeftSide.png")));
+        Image rightSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellRightSide.png")));
+        Image cornerTopLeftImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellCornerTopLeft.png")));
+        Image cornerTopRightImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellCornerTopRight.png")));
+        Image cornerBottomLeftImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellCornerBottomLeft.png")));
+        Image cornerBottomRightImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellCornerBottomRight.png")));
 
         Background background = createBackgroundFromImage(cellImage);
         Background starBackground = createBackgroundFromImage(cellImageStar);

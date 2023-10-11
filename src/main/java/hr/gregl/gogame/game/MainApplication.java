@@ -12,8 +12,8 @@ import java.util.Objects;
 public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("main-view.fxml"));
-        Image appIcon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/icon.png")));
+        FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("view/main-view.fxml"));
+        Image appIcon = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/icon.png")));
         Scene scene = new Scene(fxmlLoader.load(), 800, 800);
 
         stage.setTitle("いご\tGO GAME");
