@@ -6,8 +6,11 @@ public class GameConfig {
 
     private final int boardSize = 19; // for 19x19 board game
 
-    private int blackStonesLeft = 181;
-    private int whiteStonesLeft = 180;
+    private static final int INITIAL_BLACK_STONES = 181;
+    private static final int INITIAL_WHITE_STONES = 180;
+
+    private int blackStonesLeft = INITIAL_BLACK_STONES;
+    private int whiteStonesLeft = INITIAL_WHITE_STONES;
 
     public int getBlackStonesLeft() {
         return blackStonesLeft;
@@ -41,5 +44,10 @@ public class GameConfig {
 
     public int getBoardSizeWithBorders() {
         return boardSize + 2;
+    }
+
+    public void resetStones() {
+        blackStonesLeft = INITIAL_BLACK_STONES;
+        whiteStonesLeft = INITIAL_WHITE_STONES;
     }
 }

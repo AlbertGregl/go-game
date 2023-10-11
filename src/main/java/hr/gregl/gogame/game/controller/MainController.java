@@ -33,10 +33,18 @@ public class MainController {
     private Label whiteStonesLeftLabel;
     @FXML
     private Pane overlayPane;
+    @FXML
+    private Label winnerLabel;
+    @FXML
+    public Label playerTurnLabel;
+    @FXML
+    public Pane playerTurnPane;
 
 
     @FXML
     public void initialize() {
+        playerTurnLabel.setText("Player 1 (Black) Turn");
+        playerTurnPane.getStyleClass().add("player1Turn");
         overlayPane.setVisible(false);
         createGameBoard();
     }
@@ -70,8 +78,7 @@ public class MainController {
 
         gameLogic.placeStone(gameRow, gameCol, currentPlayerBeforeMove);
 
-        String player = (currentPlayerBeforeMove == 1) ? "Player 1 (Black)" : "Player 2 (White)";
-        statusLabel.setText(player + " moved to " + clickedPane.getId());
+        updateCurrentPlayerLbl(currentPlayerBeforeMove, clickedPane);
 
         Circle stone = new Circle(clickedPane.getWidth() / 2, clickedPane.getHeight() / 2, clickedPane.getWidth() / 2 - 5);
         if (currentPlayerBeforeMove == 1) {
@@ -90,6 +97,40 @@ public class MainController {
         gameOverCheck();
     }
 
+    private void updateCurrentPlayerLbl(int currentPlayerBeforeMove, Pane clickedPane) {
+        String player = (currentPlayerBeforeMove == 1) ? "Player 1 (Black)" : "Player 2 (White)";
+        playerTurnLabel.setText((currentPlayerBeforeMove == 1) ? "Player 2 (White) Turn" : "Player 1 (Black) Turn");
+        if (currentPlayerBeforeMove == 1) {
+
+            playerTurnPane.getStyleClass().removeAll("player1Turn");
+            playerTurnPane.getStyleClass().add("player2Turn");
+        } else {
+            playerTurnPane.getStyleClass().removeAll("player2Turn");
+            playerTurnPane.getStyleClass().add("player1Turn");
+        }
+        statusLabel.setText(player + " moved to " + clickedPane.getId());
+    }
+
+    @FXML
+    public void handleRestart() {
+        gameLogic.reset();
+
+        createGameBoard();
+
+        statusLabel.setText("Game started.");
+        blackCapturesLabel.setText("Captures: 0");
+        whiteCapturesLabel.setText("Captures: 0");
+        winnerLabel.setText("");
+
+        overlayPane.setVisible(false);
+    }
+
+    @FXML
+    public void handleSurrender() {
+        DisplayScore(gameLogic.calculateScore(1), gameLogic.calculateScore(2));
+        overlayPane.setVisible(true);
+    }
+
     private void gameOverCheck() {
         if (gameLogic.isGameOver()) {
             int player1Score = gameLogic.calculateScore(1);
@@ -103,10 +144,13 @@ public class MainController {
     private void DisplayScore(int player1Score, int player2Score) {
         if (player1Score > player2Score) {
             statusLabel.setText("Player 1 (Black) wins with " + player1Score + " points!");
+            winnerLabel.setText("Player 1 (Black) wins!");
         } else if (player2Score > player1Score) {
             statusLabel.setText("Player 2 (White) wins with " + player2Score + " points!");
+            winnerLabel.setText("Player 2 (White) wins!");
         } else {
             statusLabel.setText("It's a tie!");
+            winnerLabel.setText("It's a tie!");
         }
     }
 
@@ -182,7 +226,7 @@ public class MainController {
 
     private String getPaneId(int i, int j) {
         char[] chars = "ABCDEFGHJKLMNOPQRST".toCharArray();
-        return chars[j-1] + Integer.toString(20 - i);
+        return chars[j - 1] + Integer.toString(20 - i);
     }
 
     private void updateCaptureLabels() {
@@ -193,7 +237,7 @@ public class MainController {
     private void refreshBoard() {
         for (int i = 0; i < GameConfig.getInstance().getBoardSize(); i++) {
             for (int j = 0; j < GameConfig.getInstance().getBoardSize(); j++) {
-                Pane cell = getPaneFromGrid(boardGrid, i+1, j+1);
+                Pane cell = getPaneFromGrid(boardGrid, i + 1, j + 1);
                 int cellState = gameLogic.getCellValue(i, j);
                 assert cell != null;
                 if (cellState == 0) {

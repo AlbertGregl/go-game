@@ -1,0 +1,7 @@
+.player1Turn {
+    -fx-background-color: black
+}
+
+.player2Turn {
+    -fx-background-color: white;
+}

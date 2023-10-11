@@ -212,4 +212,18 @@ public class GameLogic {
                 || GameConfig.getInstance().getWhiteStonesLeft() == 0;
     }
 
+    public void reset() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                gameBoard.setCell(i, j, 0);
+            }
+        }
+
+        currentPlayer = 1;
+        blackCaptures = 0;
+        whiteCaptures = 0;
+        initializePreviousBoardState();
+
+        GameConfig.getInstance().resetStones();
+    }
 }

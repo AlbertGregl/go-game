@@ -14,7 +14,8 @@ public class MainApplication extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("view/main-view.fxml"));
         Image appIcon = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/icon.png")));
-        Scene scene = new Scene(fxmlLoader.load(), 800, 800);
+        Scene scene = new Scene(fxmlLoader.load());
+        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles/styles.css")).toExternalForm());
 
         stage.setTitle("いご\tGO GAME");
         stage.setScene(scene);
