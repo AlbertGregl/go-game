@@ -5,6 +5,7 @@ import hr.gregl.gogame.game.MainApplication;
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -12,6 +13,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Font;
+
 import java.util.Objects;
 
 
@@ -101,7 +104,6 @@ public class MainController {
         String player = (currentPlayerBeforeMove == 1) ? "Player 1 (Black)" : "Player 2 (White)";
         playerTurnLabel.setText((currentPlayerBeforeMove == 1) ? "Player 2 (White) Turn" : "Player 1 (Black) Turn");
         if (currentPlayerBeforeMove == 1) {
-
             playerTurnPane.getStyleClass().removeAll("player1Turn");
             playerTurnPane.getStyleClass().add("player2Turn");
         } else {
@@ -154,8 +156,10 @@ public class MainController {
         }
     }
 
-
     private void createGameBoard() {
+        boardGrid.getChildren().clear();
+        setBoardBorderLabels();
+
         Image cellImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellInner.png")));
         Image cellImageStar = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellStarPoint.png")));
         Image topSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellTopSide.png")));
@@ -185,7 +189,7 @@ public class MainController {
             for (int j = 1; j < maxIndex; j++) {
                 Pane pane = new Pane();
                 pane.setPrefSize(200, 200);
-                pane.setId(getPaneId(i, j));
+                pane.setId(GameConfig.getPaneId(i, j));
 
                 if (i == 1 && j == 1) {
                     pane.setBackground(cornerTopLeftBackground);
@@ -203,7 +207,7 @@ public class MainController {
                     pane.setBackground(leftSideBackground);
                 } else if (j == boardSize) {
                     pane.setBackground(rightSideBackground);
-                } else if (isStarPoint(i, j)) {
+                } else if (GameConfig.isStarPoint(i, j)) {
                     pane.setBackground(starBackground);
                 } else {
                     pane.setBackground(background);
@@ -218,15 +222,6 @@ public class MainController {
     private Background createBackgroundFromImage(Image image) {
         BackgroundSize size = new BackgroundSize(200, 200, false, false, false, false);
         return new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
-    }
-
-    private boolean isStarPoint(int i, int j) {
-        return (i == 4 || i == 10 || i == 16) && (j == 4 || j == 10 || j == 16);
-    }
-
-    private String getPaneId(int i, int j) {
-        char[] chars = "ABCDEFGHJKLMNOPQRST".toCharArray();
-        return chars[j - 1] + Integer.toString(20 - i);
     }
 
     private void updateCaptureLabels() {
@@ -251,6 +246,25 @@ public class MainController {
         }
     }
 
+    private void setBoardBorderLabels() {
+        for (int i = 1; i <= GameConfig.getInstance().getBoardSize(); i++) {
+            // Setting Column Labels
+            Label columnLabel = new Label(String.valueOf(GameConfig.getColumnLabel(i - 1)));
+            configureLabel(columnLabel);
+            boardGrid.add(columnLabel, i, 0);
+
+            // Setting Row Labels
+            Label rowLabel = new Label(String.valueOf(GameConfig.getRowLabel(i - 1)));
+            configureLabel(rowLabel);
+            boardGrid.add(rowLabel, 0, i);
+        }
+    }
+
+    private void configureLabel(Label label) {
+        label.setAlignment(Pos.CENTER);
+        label.setFont(new Font("MingLiU-ExtB", 24));
+    }
+
     private Pane getPaneFromGrid(GridPane grid, int row, int col) {
         for (Node node : grid.getChildren()) {
             Integer rowIndex = GridPane.getRowIndex(node);
@@ -266,6 +280,5 @@ public class MainController {
         blackStonesLeftLabel.setText("Black Stones Left: " + GameConfig.getInstance().getBlackStonesLeft());
         whiteStonesLeftLabel.setText("White Stones Left: " + GameConfig.getInstance().getWhiteStonesLeft());
     }
-
 
 }

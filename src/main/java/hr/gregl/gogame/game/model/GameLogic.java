@@ -88,10 +88,10 @@ public class GameLogic {
         visited[x][y] = true;
 
         // recursively check if any of the adjacent cells has a liberty
-        return hasLiberty(x-1, y, player, visited, tempBoard) ||
-                hasLiberty(x+1, y, player, visited, tempBoard) ||
-                hasLiberty(x, y-1, player, visited, tempBoard) ||
-                hasLiberty(x, y+1, player, visited, tempBoard);
+        return hasLiberty(x - 1, y, player, visited, tempBoard) ||
+                hasLiberty(x + 1, y, player, visited, tempBoard) ||
+                hasLiberty(x, y - 1, player, visited, tempBoard) ||
+                hasLiberty(x, y + 1, player, visited, tempBoard);
     }
 
     private boolean violatesKoRule(int[][] tempBoard) {
@@ -173,35 +173,7 @@ public class GameLogic {
     }
 
     public int calculateScore(int player) {
-        int territory = 0;
-
-        for (int i = 0; i < BOARD_SIZE; i++) {
-            for (int j = 0; j < BOARD_SIZE; j++) {
-                if (gameBoard.getCell(i, j) == 0) {
-                    if (isSurroundedBy(i, j, player)) {
-                        territory++;
-                    }
-                }
-            }
-        }
-
-        int capturedStones = (player == 1) ? whiteCaptures : blackCaptures;
-        return territory + capturedStones;
-    }
-
-    private boolean isSurroundedBy(int x, int y, int player) {
-        int[][] directions = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-        for (int[] dir : directions) {
-            int nextX = x + dir[0];
-            int nextY = y + dir[1];
-            if (nextX >= 0 && nextX < BOARD_SIZE && nextY >= 0 && nextY < BOARD_SIZE) {
-                int cellValue = gameBoard.getCell(nextX, nextY);
-                if (cellValue != player && cellValue != 0) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return (player == 1) ? blackCaptures : whiteCaptures;
     }
 
     public boolean isGameOver() {
@@ -218,12 +190,10 @@ public class GameLogic {
                 gameBoard.setCell(i, j, 0);
             }
         }
-
         currentPlayer = 1;
         blackCaptures = 0;
         whiteCaptures = 0;
         initializePreviousBoardState();
-
         GameConfig.getInstance().resetStones();
     }
 }
