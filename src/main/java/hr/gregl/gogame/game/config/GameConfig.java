@@ -5,14 +5,21 @@ public class GameConfig {
     private static final GameConfig instance = new GameConfig();
     private static final char[] BOARD_LABELS = "ABCDEFGHJKLMNOPQRST".toCharArray();
 
-    private static final int boardSize = 19;
-    private static final int INITIAL_BLACK_STONES = 181;
-    private static final int INITIAL_WHITE_STONES = 180;
+    private static int boardSize = 19;
+    private static int INITIAL_BLACK_STONES = 181;
+    private static int INITIAL_WHITE_STONES = 180;
 
     private int blackStonesLeft = INITIAL_BLACK_STONES;
     private int whiteStonesLeft = INITIAL_WHITE_STONES;
 
-    private GameConfig() {}
+    private GameConfig() {
+    }
+
+    public static void setBoardSize(int size) {
+        boardSize = size;
+        INITIAL_BLACK_STONES = (size * size) / 2 + 1;
+        INITIAL_WHITE_STONES = (size * size) / 2;
+    }
 
     public static GameConfig getInstance() {
         return instance;
@@ -61,7 +68,7 @@ public class GameConfig {
     }
 
     public static String getPaneId(int i, int j) {
-        if (j-1 < BOARD_LABELS.length) {
+        if (j - 1 < BOARD_LABELS.length) {
             return BOARD_LABELS[j - 1] + Integer.toString(boardSize + 1 - i);
         } else {
             return "";

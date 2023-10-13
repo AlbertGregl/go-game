@@ -7,7 +7,10 @@ import hr.gregl.gogame.game.model.GameLogic;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -18,10 +21,11 @@ import javafx.scene.text.Font;
 import java.util.Objects;
 
 
-public class MainController {
+public class GameController {
 
     private final GameLogic gameLogic = new GameLogic();
-
+    @FXML
+    public ToggleGroup gameBoardRBGroup;
     @FXML
     private GridPane boardGrid;
     @FXML
@@ -42,14 +46,29 @@ public class MainController {
     public Label playerTurnLabel;
     @FXML
     public Pane playerTurnPane;
+    @FXML
+    public Button surrenderBtn;
+    @FXML
+    public Pane mainMenuPane;
+    @FXML
+    public RadioButton board19x19RadioBtn;
+    @FXML
+    public RadioButton board13x13RadioBtn;
+    @FXML
+    public RadioButton board9x9RadioBtn;
 
 
     @FXML
     public void initialize() {
+        initUserInterface();
+    }
+
+    private void initUserInterface() {
         playerTurnLabel.setText("Player 1 (Black) Turn");
         playerTurnPane.getStyleClass().add("player1Turn");
         overlayPane.setVisible(false);
-        createGameBoard();
+        surrenderBtn.setVisible(true);
+        mainMenuPane.setVisible(true);
     }
 
     @FXML
@@ -123,14 +142,18 @@ public class MainController {
         blackCapturesLabel.setText("Captures: 0");
         whiteCapturesLabel.setText("Captures: 0");
         winnerLabel.setText("");
+        blackStonesLeftLabel.setText("Black Stones Left: " + GameConfig.getInstance().getBlackStonesLeft());
+        whiteStonesLeftLabel.setText("White Stones Left: " + GameConfig.getInstance().getWhiteStonesLeft());
 
         overlayPane.setVisible(false);
+        surrenderBtn.setVisible(true);
     }
 
     @FXML
     public void handleSurrender() {
         DisplayScore(gameLogic.calculateScore(1), gameLogic.calculateScore(2));
         overlayPane.setVisible(true);
+        surrenderBtn.setVisible(false);
     }
 
     private void gameOverCheck() {
@@ -140,6 +163,7 @@ public class MainController {
 
             DisplayScore(player1Score, player2Score);
             overlayPane.setVisible(true);
+            surrenderBtn.setVisible(false);
         }
     }
 
@@ -248,12 +272,10 @@ public class MainController {
 
     private void setBoardBorderLabels() {
         for (int i = 1; i <= GameConfig.getInstance().getBoardSize(); i++) {
-            // Setting Column Labels
             Label columnLabel = new Label(String.valueOf(GameConfig.getColumnLabel(i - 1)));
             configureLabel(columnLabel);
             boardGrid.add(columnLabel, i, 0);
 
-            // Setting Row Labels
             Label rowLabel = new Label(String.valueOf(GameConfig.getRowLabel(i - 1)));
             configureLabel(rowLabel);
             boardGrid.add(rowLabel, 0, i);
@@ -281,4 +303,15 @@ public class MainController {
         whiteStonesLeftLabel.setText("White Stones Left: " + GameConfig.getInstance().getWhiteStonesLeft());
     }
 
+    public void handlePlayGame() {
+        if (board19x19RadioBtn.isSelected()) {
+            GameConfig.setBoardSize(19);
+        } else if (board13x13RadioBtn.isSelected()) {
+            GameConfig.setBoardSize(13);
+        } else if (board9x9RadioBtn.isSelected()) {
+            GameConfig.setBoardSize(9);
+        }
+        handleRestart();
+        mainMenuPane.setVisible(false);
+    }
 }

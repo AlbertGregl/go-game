@@ -5,3 +5,8 @@
 .player2Turn {
     -fx-background-color: white;
 }
+
+.mainMenuPane {
+    -fx-background-image: url("/hr/gregl/gogame/game/images/Minamoto.png");
+    -fx-background-size: cover;
+}
