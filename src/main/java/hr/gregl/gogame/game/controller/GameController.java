@@ -1,9 +1,9 @@
 package hr.gregl.gogame.game.controller;
 
 
-import hr.gregl.gogame.game.MainApplication;
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
+import hr.gregl.gogame.game.utility.BoardImage;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -11,14 +11,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
-
-import java.util.Objects;
 
 
 public class GameController {
@@ -83,7 +80,6 @@ public class GameController {
 
         int maxIndex = GameConfig.getInstance().getBoardSizeWithBorders() - 1;
 
-        // ignore clicks on the border of the board.
         if (row == 0 || row == maxIndex || col == 0 || col == maxIndex) {
             return;
         }
@@ -151,7 +147,7 @@ public class GameController {
 
     @FXML
     public void handleSurrender() {
-        DisplayScore(gameLogic.calculateScore(1), gameLogic.calculateScore(2));
+        displayScore(gameLogic.calculateScore(1), gameLogic.calculateScore(2));
         overlayPane.setVisible(true);
         surrenderBtn.setVisible(false);
     }
@@ -161,13 +157,13 @@ public class GameController {
             int player1Score = gameLogic.calculateScore(1);
             int player2Score = gameLogic.calculateScore(2);
 
-            DisplayScore(player1Score, player2Score);
+            displayScore(player1Score, player2Score);
             overlayPane.setVisible(true);
             surrenderBtn.setVisible(false);
         }
     }
 
-    private void DisplayScore(int player1Score, int player2Score) {
+    private void displayScore(int player1Score, int player2Score) {
         if (player1Score > player2Score) {
             statusLabel.setText("Player 1 (Black) wins with " + player1Score + " points!");
             winnerLabel.setText("Player 1 (Black) wins!");
@@ -182,71 +178,51 @@ public class GameController {
 
     private void createGameBoard() {
         boardGrid.getChildren().clear();
+
         setBoardBorderLabels();
-
-        Image cellImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellInner.png")));
-        Image cellImageStar = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellStarPoint.png")));
-        Image topSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellTopSide.png")));
-        Image bottomSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellBottomSide.png")));
-        Image leftSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellLeftSide.png")));
-        Image rightSideImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellRightSide.png")));
-        Image cornerTopLeftImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellCornerTopLeft.png")));
-        Image cornerTopRightImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellCornerTopRight.png")));
-        Image cornerBottomLeftImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellCornerBottomLeft.png")));
-        Image cornerBottomRightImage = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream("images/boardCellCornerBottomRight.png")));
-
-        Background background = createBackgroundFromImage(cellImage);
-        Background starBackground = createBackgroundFromImage(cellImageStar);
-        Background topSideBackground = createBackgroundFromImage(topSideImage);
-        Background bottomSideBackground = createBackgroundFromImage(bottomSideImage);
-        Background leftSideBackground = createBackgroundFromImage(leftSideImage);
-        Background rightSideBackground = createBackgroundFromImage(rightSideImage);
-        Background cornerTopLeftBackground = createBackgroundFromImage(cornerTopLeftImage);
-        Background cornerTopRightBackground = createBackgroundFromImage(cornerTopRightImage);
-        Background cornerBottomLeftBackground = createBackgroundFromImage(cornerBottomLeftImage);
-        Background cornerBottomRightBackground = createBackgroundFromImage(cornerBottomRightImage);
 
         int boardSize = GameConfig.getInstance().getBoardSize();
         int maxIndex = GameConfig.getInstance().getBoardSizeWithBorders() - 1; // boardSize + 1
 
         for (int i = 1; i < maxIndex; i++) {
             for (int j = 1; j < maxIndex; j++) {
-                Pane pane = new Pane();
-                pane.setPrefSize(200, 200);
-                pane.setId(GameConfig.getPaneId(i, j));
-
-                if (i == 1 && j == 1) {
-                    pane.setBackground(cornerTopLeftBackground);
-                } else if (i == 1 && j == boardSize) {
-                    pane.setBackground(cornerTopRightBackground);
-                } else if (i == boardSize && j == 1) {
-                    pane.setBackground(cornerBottomLeftBackground);
-                } else if (i == boardSize && j == boardSize) {
-                    pane.setBackground(cornerBottomRightBackground);
-                } else if (i == 1) {
-                    pane.setBackground(topSideBackground);
-                } else if (i == boardSize) {
-                    pane.setBackground(bottomSideBackground);
-                } else if (j == 1) {
-                    pane.setBackground(leftSideBackground);
-                } else if (j == boardSize) {
-                    pane.setBackground(rightSideBackground);
-                } else if (GameConfig.isStarPoint(i, j)) {
-                    pane.setBackground(starBackground);
-                } else {
-                    pane.setBackground(background);
-                }
-                pane.setOnMouseClicked(this::handleCellClick);
+                Pane pane = getPane(i, j, boardSize);
 
                 boardGrid.add(pane, j, i);
             }
         }
     }
 
-    private Background createBackgroundFromImage(Image image) {
-        BackgroundSize size = new BackgroundSize(200, 200, false, false, false, false);
-        return new Background(new BackgroundImage(image, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, size));
+    private Pane getPane(int i, int j, int boardSize) {
+        Pane pane = new Pane();
+        pane.setPrefSize(200, 200);
+        pane.setId(GameConfig.getPaneId(i, j));
+
+        if (i == 1 && j == 1) {
+            pane.setBackground(BoardImage.CORNER_TOP_LEFT.getBackground());
+        } else if (i == 1 && j == boardSize) {
+            pane.setBackground(BoardImage.CORNER_TOP_RIGHT.getBackground());
+        } else if (i == boardSize && j == 1) {
+            pane.setBackground(BoardImage.CORNER_BOTTOM_LEFT.getBackground());
+        } else if (i == boardSize && j == boardSize) {
+            pane.setBackground(BoardImage.CORNER_BOTTOM_RIGHT.getBackground());
+        } else if (i == 1) {
+            pane.setBackground(BoardImage.TOP_SIDE.getBackground());
+        } else if (i == boardSize) {
+            pane.setBackground(BoardImage.BOTTOM_SIDE.getBackground());
+        } else if (j == 1) {
+            pane.setBackground(BoardImage.LEFT_SIDE.getBackground());
+        } else if (j == boardSize) {
+            pane.setBackground(BoardImage.RIGHT_SIDE.getBackground());
+        } else if (GameConfig.isStarPoint(i, j)) {
+            pane.setBackground(BoardImage.STAR.getBackground());
+        } else {
+            pane.setBackground(BoardImage.CELL.getBackground());
+        }
+        pane.setOnMouseClicked(this::handleCellClick);
+        return pane;
     }
+
 
     private void updateCaptureLabels() {
         blackCapturesLabel.setText("Captures: " + gameLogic.getBlackCaptures());

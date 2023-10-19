@@ -95,7 +95,7 @@ public class GameLogic {
     }
 
     private boolean violatesKoRule(int[][] tempBoard) {
-        // check if the current board state is the same as the previous board state
+        // "Ko" rule check if the current board state is the same as the previous board state
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++) {
                 if (tempBoard[i][j] != previousBoardState[i][j]) {
