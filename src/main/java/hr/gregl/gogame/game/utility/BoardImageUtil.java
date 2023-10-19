@@ -6,7 +6,7 @@ import javafx.scene.layout.*;
 
 import java.util.Objects;
 
-public enum BoardImage {
+public enum BoardImageUtil {
 
     CELL("images/boardCellInner.png"),
     STAR("images/boardCellStarPoint.png"),
@@ -21,7 +21,7 @@ public enum BoardImage {
 
     private final Background background;
 
-    BoardImage(String path) {
+    BoardImageUtil(String path) {
         Image image = new Image(Objects.requireNonNull(MainApplication.class.getResourceAsStream(path)));
         this.background = createBackgroundFromImage(image);
     }

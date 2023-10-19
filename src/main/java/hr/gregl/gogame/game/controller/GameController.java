@@ -3,7 +3,9 @@ package hr.gregl.gogame.game.controller;
 
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
-import hr.gregl.gogame.game.utility.BoardImage;
+import hr.gregl.gogame.game.utility.BoardImageUtil;
+import hr.gregl.gogame.game.utility.GameIOUtil;
+import hr.gregl.gogame.game.utility.GameSaveState;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -16,6 +18,9 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
+import javafx.stage.FileChooser;
+
+import java.io.*;
 
 
 public class GameController {
@@ -23,6 +28,8 @@ public class GameController {
     private final GameLogic gameLogic = new GameLogic();
     @FXML
     public ToggleGroup gameBoardRBGroup;
+    @FXML
+    public Button loadButton;
     @FXML
     private GridPane boardGrid;
     @FXML
@@ -199,25 +206,25 @@ public class GameController {
         pane.setId(GameConfig.getPaneId(i, j));
 
         if (i == 1 && j == 1) {
-            pane.setBackground(BoardImage.CORNER_TOP_LEFT.getBackground());
+            pane.setBackground(BoardImageUtil.CORNER_TOP_LEFT.getBackground());
         } else if (i == 1 && j == boardSize) {
-            pane.setBackground(BoardImage.CORNER_TOP_RIGHT.getBackground());
+            pane.setBackground(BoardImageUtil.CORNER_TOP_RIGHT.getBackground());
         } else if (i == boardSize && j == 1) {
-            pane.setBackground(BoardImage.CORNER_BOTTOM_LEFT.getBackground());
+            pane.setBackground(BoardImageUtil.CORNER_BOTTOM_LEFT.getBackground());
         } else if (i == boardSize && j == boardSize) {
-            pane.setBackground(BoardImage.CORNER_BOTTOM_RIGHT.getBackground());
+            pane.setBackground(BoardImageUtil.CORNER_BOTTOM_RIGHT.getBackground());
         } else if (i == 1) {
-            pane.setBackground(BoardImage.TOP_SIDE.getBackground());
+            pane.setBackground(BoardImageUtil.TOP_SIDE.getBackground());
         } else if (i == boardSize) {
-            pane.setBackground(BoardImage.BOTTOM_SIDE.getBackground());
+            pane.setBackground(BoardImageUtil.BOTTOM_SIDE.getBackground());
         } else if (j == 1) {
-            pane.setBackground(BoardImage.LEFT_SIDE.getBackground());
+            pane.setBackground(BoardImageUtil.LEFT_SIDE.getBackground());
         } else if (j == boardSize) {
-            pane.setBackground(BoardImage.RIGHT_SIDE.getBackground());
+            pane.setBackground(BoardImageUtil.RIGHT_SIDE.getBackground());
         } else if (GameConfig.isStarPoint(i, j)) {
-            pane.setBackground(BoardImage.STAR.getBackground());
+            pane.setBackground(BoardImageUtil.STAR.getBackground());
         } else {
-            pane.setBackground(BoardImage.CELL.getBackground());
+            pane.setBackground(BoardImageUtil.CELL.getBackground());
         }
         pane.setOnMouseClicked(this::handleCellClick);
         return pane;
@@ -290,4 +297,54 @@ public class GameController {
         handleRestart();
         mainMenuPane.setVisible(false);
     }
+
+    public void handleSaveGameAction() {
+        FileChooser fileChooser = GameIOUtil.configureFileChooser("Save Game State");
+        File saveFile = fileChooser.showSaveDialog(boardGrid.getScene().getWindow());
+
+        if (saveFile != null) {
+            try {
+                int[][] boardState = gameLogic.getBoard();
+                GameSaveState saveState = new GameSaveState(
+                        boardState,
+                        gameLogic.getBlackCaptures(),
+                        gameLogic.getWhiteCaptures(),
+                        GameConfig.getInstance().getBoardSize(),
+                        GameConfig.getInstance().getBlackStonesLeft(),
+                        GameConfig.getInstance().getWhiteStonesLeft()
+                );
+
+                GameIOUtil.saveGame(saveFile, saveState);
+
+            } catch (IOException e) {
+                // e.printStackTrace();
+            }
+        }
+    }
+
+    public void handleLoadGameAction() {
+        FileChooser fileChooser = GameIOUtil.configureFileChooser("Load Game State");
+        File loadFile = fileChooser.showOpenDialog(boardGrid.getScene().getWindow());
+
+        if (loadFile != null) {
+            try {
+                GameSaveState loadedState = GameIOUtil.loadGame(loadFile);
+
+                gameLogic.setBoard(loadedState.getBoardState());
+                GameConfig.setBoardSize(loadedState.getBoardSize());
+                gameLogic.setBlackCaptures(loadedState.getBlackCaptures());
+                gameLogic.setWhiteCaptures(loadedState.getWhiteCaptures());
+                GameConfig.setBlackStonesLeft(loadedState.getBlackStonesLeft());
+                GameConfig.setWhiteStonesLeft(loadedState.getWhiteStonesLeft());
+
+                updateCaptureLabels();
+                refreshBoard();
+                updateStonesLeftLabels();
+
+            } catch (IOException | ClassNotFoundException e) {
+                // e.printStackTrace();
+            }
+        }
+    }
+
 }

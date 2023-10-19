@@ -87,5 +87,13 @@ public class GameConfig {
         return boardSize - index;
     }
 
+    public static void setBlackStonesLeft(int value) {
+        instance.blackStonesLeft = value;
+    }
+
+    public static void setWhiteStonesLeft(int value) {
+        instance.whiteStonesLeft = value;
+    }
+
 }
 

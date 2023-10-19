@@ -16,19 +16,6 @@ public class GameLogic {
     private int blackCaptures = 0;
     private int whiteCaptures = 0;
 
-
-    public int getBlackCaptures() {
-        return blackCaptures;
-    }
-
-    public int getWhiteCaptures() {
-        return whiteCaptures;
-    }
-
-    public int getCellValue(int x, int y) {
-        return gameBoard.getCell(x, y);
-    }
-
     public GameLogic() {
         this.BOARD_SIZE = GameConfig.getInstance().getBoardSize();
         this.gameBoard = new GameBoard(BOARD_SIZE);
@@ -42,6 +29,34 @@ public class GameLogic {
                 previousBoardState[i][j] = gameBoard.getCell(i, j);
             }
         }
+    }
+
+    public void setBlackCaptures(int blackCaptures) {
+        this.blackCaptures = blackCaptures;
+    }
+
+    public void setWhiteCaptures(int whiteCaptures) {
+        this.whiteCaptures = whiteCaptures;
+    }
+
+
+    public void setBoard(int[][] newBoard) {
+        gameBoard.setBoard(newBoard);
+    }
+
+    public int[][] getBoard() {
+        return gameBoard.getBoard();
+    }
+    public int getBlackCaptures() {
+        return blackCaptures;
+    }
+
+    public int getWhiteCaptures() {
+        return whiteCaptures;
+    }
+
+    public int getCellValue(int x, int y) {
+        return gameBoard.getCell(x, y);
     }
 
     public int getCurrentPlayer() {
@@ -72,7 +87,6 @@ public class GameLogic {
         }
         return true;
     }
-
 
     private boolean isSuicidalMove(int row, int col, int player, int[][] tempBoard) {
         boolean[][] visited = new boolean[BOARD_SIZE][BOARD_SIZE];
