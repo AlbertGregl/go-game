@@ -3,9 +3,7 @@ package hr.gregl.gogame.game.controller;
 
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
-import hr.gregl.gogame.game.utility.BoardImageUtil;
-import hr.gregl.gogame.game.utility.GameIOUtil;
-import hr.gregl.gogame.game.utility.GameSaveState;
+import hr.gregl.gogame.game.utility.*;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -24,6 +22,7 @@ import java.io.*;
 
 
 public class GameController {
+
 
     private final GameLogic gameLogic = new GameLogic();
     @FXML
@@ -114,11 +113,8 @@ public class GameController {
         clickedPane.getChildren().add(stone);
 
         updateCaptureLabels();
-
         refreshBoard();
-
         updateStonesLeftLabels();
-
         gameOverCheck();
     }
 
@@ -299,7 +295,10 @@ public class GameController {
     }
 
     public void handleSaveGameAction() {
-        FileChooser fileChooser = GameIOUtil.configureFileChooser("Save Game State");
+        FileChooser fileChooser = GameIOUtil.configureFileChooser(
+                "Save Game State",
+                "Game save file",
+                "*.gogame");
         File saveFile = fileChooser.showSaveDialog(boardGrid.getScene().getWindow());
 
         if (saveFile != null) {
@@ -323,7 +322,10 @@ public class GameController {
     }
 
     public void handleLoadGameAction() {
-        FileChooser fileChooser = GameIOUtil.configureFileChooser("Load Game State");
+        FileChooser fileChooser = GameIOUtil.configureFileChooser(
+                "Load Game State",
+                "Game save file",
+                "*.gogame");
         File loadFile = fileChooser.showOpenDialog(boardGrid.getScene().getWindow());
 
         if (loadFile != null) {
@@ -346,5 +348,12 @@ public class GameController {
             }
         }
     }
-
+    public void generateDocumentation() {
+        FileChooser fileChooser = GameIOUtil.configureFileChooser(
+                "Choose directory to save documentation",
+                "HTML file",
+                "*.html");
+        File saveFile = fileChooser.showSaveDialog(boardGrid.getScene().getWindow());
+        PrintDocumentationUtil.getInstance().printDocumentation(saveFile);
+    }
 }

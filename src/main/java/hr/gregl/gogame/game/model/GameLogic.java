@@ -93,6 +93,7 @@ public class GameLogic {
         return !hasLiberty(row, col, player, visited, tempBoard);
     }
 
+
     private boolean hasLiberty(int x, int y, int player, boolean[][] visited, int[][] tempBoard) {
         if (x < 0 || x >= BOARD_SIZE || y < 0 || y >= BOARD_SIZE) return false;
         if (visited[x][y]) return false;

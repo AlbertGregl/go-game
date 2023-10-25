@@ -22,10 +22,10 @@ public class GameIOUtil {
         return loadedState;
     }
 
-    public static FileChooser configureFileChooser(String title) {
+    public static FileChooser configureFileChooser(String title, String description, String extension) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle(title);
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("DAT files (*.dat)", "*.dat"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter(description, extension));
         return fileChooser;
     }
 }

@@ -1,0 +1,270 @@
+<h1>Class: hr.gregl.gogame.game.config.GameConfig</h1>
+<h2>Fields</h2>
+<ul>
+<li>private static final GameConfig instance</li>
+<li>private static final char[] BOARD_LABELS</li>
+<li>private static int boardSize</li>
+<li>private static int INITIAL_BLACK_STONES</li>
+<li>private static int INITIAL_WHITE_STONES</li>
+<li>private int blackStonesLeft</li>
+<li>private int whiteStonesLeft</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>private hr.gregl.gogame.game.config.GameConfig()</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public static GameConfig getInstance()</li>
+<li>public int getWhiteStonesLeft()</li>
+<li>public static char getColumnLabel(int)</li>
+<li>public static int getRowLabel(int)</li>
+<li>public static boolean isStarPoint(int, int)</li>
+<li>public int getBoardSize()</li>
+<li>public static void setBoardSize(int)</li>
+<li>public int getBlackStonesLeft()</li>
+<li>public static String getPaneId(int, int)</li>
+<li>public void decreaseWhiteStones()</li>
+<li>public void decreaseBlackStones()</li>
+<li>public int getBoardSizeWithBorders()</li>
+<li>public static void setBlackStonesLeft(int)</li>
+<li>public void resetStones()</li>
+<li>public static void setWhiteStonesLeft(int)</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.controller.GameController</h1>
+<h2>Fields</h2>
+<ul>
+<li>private final GameLogic gameLogic</li>
+<li>public ToggleGroup gameBoardRBGroup</li>
+<li>public Button loadButton</li>
+<li>private GridPane boardGrid</li>
+<li>private Label statusLabel</li>
+<li>private Label blackCapturesLabel</li>
+<li>private Label whiteCapturesLabel</li>
+<li>private Label blackStonesLeftLabel</li>
+<li>private Label whiteStonesLeftLabel</li>
+<li>private Pane overlayPane</li>
+<li>private Label winnerLabel</li>
+<li>public Label playerTurnLabel</li>
+<li>public Pane playerTurnPane</li>
+<li>public Button surrenderBtn</li>
+<li>public Pane mainMenuPane</li>
+<li>public RadioButton board19x19RadioBtn</li>
+<li>public RadioButton board13x13RadioBtn</li>
+<li>public RadioButton board9x9RadioBtn</li>
+<li>static final boolean $assertionsDisabled</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>public hr.gregl.gogame.game.controller.GameController()</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public void initialize()</li>
+<li>private void createGameBoard()</li>
+<li>private Pane getPaneFromGrid(GridPane, int, int)</li>
+<li>private void initUserInterface()</li>
+<li>private void gameOverCheck()</li>
+<li>private void configureLabel(Label)</li>
+<li>private void refreshBoard()</li>
+<li>private void displayScore(int, int)</li>
+<li>private Pane getPane(int, int, int)</li>
+<li>public void handleLoadGameAction()</li>
+<li>private void updateCaptureLabels()</li>
+<li>private void updateStonesLeftLabels()</li>
+<li>private void setBoardBorderLabels()</li>
+<li>private void updateCurrentPlayerLbl(int, Pane)</li>
+<li>public void handleSaveGameAction()</li>
+<li>public void generateDocumentation()</li>
+<li>public void handleRestart()</li>
+<li>public void handlePlayGame()</li>
+<li>private void handleCellClick(MouseEvent)</li>
+<li>public void handleSurrender()</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.MainApplication</h1>
+<h2>Constructors</h2>
+<ul>
+<li>public hr.gregl.gogame.game.MainApplication()</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public static void main(String[])</li>
+<li>public void start(Stage)</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.model.GameBoard</h1>
+<h2>Fields</h2>
+<ul>
+<li>private final int[][] board</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>public hr.gregl.gogame.game.model.GameBoard(int)</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public int getCell(int, int)</li>
+<li>public void setBoard(int[][])</li>
+<li>public boolean hasStone(int, int)</li>
+<li>public int[][] getBoard()</li>
+<li>public void setCell(int, int, int)</li>
+<li>public int[][] getBoardCopy()</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.model.GameLogic</h1>
+<h2>Fields</h2>
+<ul>
+<li>private final GameBoard gameBoard</li>
+<li>private int currentPlayer</li>
+<li>private int[][] previousBoardState</li>
+<li>private final int BOARD_SIZE</li>
+<li>private int blackCaptures</li>
+<li>private int whiteCaptures</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>public hr.gregl.gogame.game.model.GameLogic()</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public void reset()</li>
+<li>public int getCurrentPlayer()</li>
+<li>public int calculateScore(int)</li>
+<li>public boolean isValidMove(int, int, int)</li>
+<li>public int getBlackCaptures()</li>
+<li>public int getCellValue(int, int)</li>
+<li>public int getWhiteCaptures()</li>
+<li>public boolean isGameOver()</li>
+<li>public void setBoard(int[][])</li>
+<li>public int[][] getBoard()</li>
+<li>private boolean hasLiberty(int, int, int, boolean[][], int[][])</li>
+<li>public void placeStone(int, int, int)</li>
+<li>public void setBlackCaptures(int)</li>
+<li>private boolean isSuicidalMove(int, int, int, int[][])</li>
+<li>private boolean violatesKoRule(int[][])</li>
+<li>public boolean canPlayerMove(int)</li>
+<li>public void setWhiteCaptures(int)</li>
+<li>private List findConnectedGroup(int, int, int)</li>
+<li>private List findCapturedStones(int, int, int)</li>
+<li>private void initializePreviousBoardState()</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.model.Point</h1>
+<h2>Fields</h2>
+<ul>
+<li>public int x</li>
+<li>public int y</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>public hr.gregl.gogame.game.model.Point(int, int)</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public boolean equals(Object)</li>
+<li>public String toString()</li>
+<li>public int hashCode()</li>
+</ul>
+<h1>Enum: hr.gregl.gogame.game.utility.BoardImageUtil</h1>
+<h2>Fields</h2>
+<ul>
+<li>public static final BoardImageUtil CELL</li>
+<li>public static final BoardImageUtil STAR</li>
+<li>public static final BoardImageUtil TOP_SIDE</li>
+<li>public static final BoardImageUtil BOTTOM_SIDE</li>
+<li>public static final BoardImageUtil LEFT_SIDE</li>
+<li>public static final BoardImageUtil RIGHT_SIDE</li>
+<li>public static final BoardImageUtil CORNER_TOP_LEFT</li>
+<li>public static final BoardImageUtil CORNER_TOP_RIGHT</li>
+<li>public static final BoardImageUtil CORNER_BOTTOM_LEFT</li>
+<li>public static final BoardImageUtil CORNER_BOTTOM_RIGHT</li>
+<li>private final Background background</li>
+<li>private static final BoardImageUtil[] $VALUES</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>private hr.gregl.gogame.game.utility.BoardImageUtil(String, int, String)</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public static BoardImageUtil[] values()</li>
+<li>public static BoardImageUtil valueOf(String)</li>
+<li>private static BoardImageUtil[] $values()</li>
+<li>public Background getBackground()</li>
+<li>private static Background createBackgroundFromImage(Image)</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.utility.GameIOUtil</h1>
+<h2>Constructors</h2>
+<ul>
+<li>public hr.gregl.gogame.game.utility.GameIOUtil()</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public static GameSaveState loadGame(File)</li>
+<li>public static void saveGame(File, GameSaveState)</li>
+<li>public static FileChooser configureFileChooser(String)</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.utility.GameSaveState</h1>
+<h2>Fields</h2>
+<ul>
+<li>private static final long serialVersionUID</li>
+<li>private final int[][] boardState</li>
+<li>private final int blackCaptures</li>
+<li>private final int whiteCaptures</li>
+<li>private final int boardSize</li>
+<li>private final int blackStonesLeft</li>
+<li>private final int whiteStonesLeft</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>public hr.gregl.gogame.game.utility.GameSaveState(int[][], int, int, int, int, int)</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public int getWhiteStonesLeft()</li>
+<li>public int getBlackCaptures()</li>
+<li>public int getWhiteCaptures()</li>
+<li>public int getBoardSize()</li>
+<li>public int getBlackStonesLeft()</li>
+<li>public int[][] getBoardState()</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.utility.PrintDocumentationUtil</h1>
+<h2>Fields</h2>
+<ul>
+<li>private static PrintDocumentationUtil instance</li>
+<li>private static final String DOC_HTML</li>
+<li>private final File TARGET_DIR</li>
+<li>private final File DOC_FILE</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>private hr.gregl.gogame.game.utility.PrintDocumentationUtil()</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public static PrintDocumentationUtil getInstance()</li>
+<li>private String getClassName(File)</li>
+<li>public void printDocumentation()</li>
+<li>private void documentConstructors(Class, BufferedWriter)</li>
+<li>private String parameterStringFormat(Class[])</li>
+<li>private static void documentClasses(Class, BufferedWriter)</li>
+<li>private void documentMethods(Class, BufferedWriter)</li>
+<li>private void processDirectory(File, BufferedWriter)</li>
+<li>private static void documentFields(Class, BufferedWriter)</li>
+<li>private void documentClass(Class, BufferedWriter)</li>
+</ul>
+<h1>Class: hr.gregl.gogame.game.utility.PrintDocumentationUtilDELETE</h1>
+<h2>Fields</h2>
+<ul>
+<li>private static PrintDocumentationUtilDELETE instance</li>
+<li>private static final String DOC_HTML</li>
+<li>private final File FILE</li>
+<li>private final File DOC_FILE</li>
+</ul>
+<h2>Constructors</h2>
+<ul>
+<li>private hr.gregl.gogame.game.utility.PrintDocumentationUtilDELETE()</li>
+</ul>
+<h2>Methods</h2>
+<ul>
+<li>public static PrintDocumentationUtilDELETE getInstance()</li>
+<li>private void print(File)</li>
+<li>public void printDocumentation()</li>
+</ul>
