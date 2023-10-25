@@ -12,7 +12,7 @@ import java.util.Objects;
 
 public class PrintDocumentationUtil {
     private static PrintDocumentationUtil instance;
-    private final File TARGET_DIR = new File("C:\\Users\\alber\\OneDrive\\Desktop\\repo\\go-game\\target");
+    private final File TARGET_DIR = new File("target");
 
     private PrintDocumentationUtil() {
     }
