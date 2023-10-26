@@ -28,7 +28,7 @@ public class PrintDocumentationUtil {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile))) {
             processDirectory(TARGET_DIR, writer);
         } catch (IOException e) {
-            //e.printStackTrace();
+            e.printStackTrace();
         }
     }
 
@@ -40,9 +40,9 @@ public class PrintDocumentationUtil {
                 try {
                     String className = getClassName(file);
                     Class<?> cls = Class.forName(className);
-                    documentClass(cls, writer);
+                    documentClasses(cls, writer);
                 } catch (ClassNotFoundException | IOException e) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                 }
             }
         }
@@ -55,14 +55,14 @@ public class PrintDocumentationUtil {
         return classPath.replace(File.separator, ".");
     }
 
-    private void documentClass(Class<?> clazz, BufferedWriter writer) throws IOException {
-        documentClasses(clazz, writer);
+    private void documentClasses(Class<?> clazz, BufferedWriter writer) throws IOException {
+        documentClazz(clazz, writer);
         documentFields(clazz, writer);
         documentConstructors(clazz, writer);
         documentMethods(clazz, writer);
     }
 
-    private static void documentClasses(Class<?> clazz, BufferedWriter writer) throws IOException {
+    private static void documentClazz(Class<?> clazz, BufferedWriter writer) throws IOException {
         if (clazz.isInterface()) {
             writer.write("<h1>Interface: " + clazz.getName() + "</h1>\n");
         } else if (Modifier.isAbstract(clazz.getModifiers())) {

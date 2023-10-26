@@ -316,7 +316,7 @@ public class GameController {
                 GameIOUtil.saveGame(saveFile, saveState);
 
             } catch (IOException e) {
-                // e.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
@@ -344,7 +344,7 @@ public class GameController {
                 updateStonesLeftLabels();
 
             } catch (IOException | ClassNotFoundException e) {
-                // e.printStackTrace();
+                e.printStackTrace();
             }
         }
     }
