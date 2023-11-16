@@ -1,5 +1,6 @@
 package hr.gregl.gogame.game.controller;
 
+//region Imports
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
 import hr.gregl.gogame.game.model.UserType;
@@ -23,11 +24,18 @@ import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import hr.gregl.gogame.game.networking.GameStateUpdateListener;
 import java.io.*;
-
+//endregion
 
 public class GameController implements GameStateUpdateListener{
 
+    //region Game Logic Instance
     private final GameLogic gameLogic = new GameLogic();
+    //endregion
+    //region Networking Instances
+    private GameServer gameServer;
+    private GameClient gameClient;
+    //endregion
+    //region FXML Injected Fields
     @FXML
     public ToggleGroup gameBoardRBGroup;
     @FXML
@@ -62,23 +70,11 @@ public class GameController implements GameStateUpdateListener{
     public RadioButton board13x13RadioBtn;
     @FXML
     public RadioButton board9x9RadioBtn;
-    private GameServer gameServer;
-    private GameClient gameClient;
-
-
+    //endregion
     @FXML
     public void initialize() {
         initUserInterface();
     }
-
-    private void initUserInterface() {
-        playerTurnLabel.setText("Player 1 (Black) Turn");
-        playerTurnPane.getStyleClass().add("player1Turn");
-        overlayPane.setVisible(false);
-        surrenderBtn.setVisible(true);
-        mainMenuPane.setVisible(true);
-    }
-
     @FXML
     private void handleCellClick(MouseEvent event) {
         Pane clickedPane = (Pane) event.getSource();
@@ -132,21 +128,6 @@ public class GameController implements GameStateUpdateListener{
         }
 
     }
-
-    private void updateCurrentPlayerLbl(int currentPlayerBeforeMove, Pane clickedPane) {
-        String player = (currentPlayerBeforeMove == 1) ? "Player 1 (Black)" : "Player 2 (White)";
-        playerTurnLabel.setText((currentPlayerBeforeMove == 1) ? "Player 2 (White) Turn" : "Player 1 (Black) Turn");
-        if (currentPlayerBeforeMove == 1) {
-            playerTurnPane.getStyleClass().removeAll("player1Turn");
-            playerTurnPane.getStyleClass().add("player2Turn");
-        } else {
-            playerTurnPane.getStyleClass().removeAll("player2Turn");
-            playerTurnPane.getStyleClass().add("player1Turn");
-        }
-        String paneId = clickedPane != null ? clickedPane.getId() : "N/A";
-        statusLabel.setText(player + " moved to " + paneId);
-    }
-
     @FXML
     public void handleRestart() {
         gameLogic.reset();
@@ -169,6 +150,38 @@ public class GameController implements GameStateUpdateListener{
         displayScore(gameLogic.calculateScore(1), gameLogic.calculateScore(2));
         overlayPane.setVisible(true);
         surrenderBtn.setVisible(false);
+    }
+
+    @FXML
+    public void generateDocumentation() {
+        FileChooser fileChooser = GameIOUtil.configureFileChooser(
+                "Choose directory to save documentation",
+                "HTML file",
+                "*.html");
+        File saveFile = fileChooser.showSaveDialog(boardGrid.getScene().getWindow());
+        PrintDocumentationUtil.getInstance().printDocumentation(saveFile);
+    }
+
+    private void initUserInterface() {
+        playerTurnLabel.setText("Player 1 (Black) Turn");
+        playerTurnPane.getStyleClass().add("player1Turn");
+        overlayPane.setVisible(false);
+        surrenderBtn.setVisible(true);
+        mainMenuPane.setVisible(true);
+    }
+
+    private void updateCurrentPlayerLbl(int currentPlayerBeforeMove, Pane clickedPane) {
+        String player = (currentPlayerBeforeMove == 1) ? "Player 1 (Black)" : "Player 2 (White)";
+        playerTurnLabel.setText((currentPlayerBeforeMove == 1) ? "Player 2 (White) Turn" : "Player 1 (Black) Turn");
+        if (currentPlayerBeforeMove == 1) {
+            playerTurnPane.getStyleClass().removeAll("player1Turn");
+            playerTurnPane.getStyleClass().add("player2Turn");
+        } else {
+            playerTurnPane.getStyleClass().removeAll("player2Turn");
+            playerTurnPane.getStyleClass().add("player1Turn");
+        }
+        String paneId = clickedPane != null ? clickedPane.getId() : "N/A";
+        statusLabel.setText(player + " moved to " + paneId);
     }
 
     private void gameOverCheck() {
@@ -368,14 +381,6 @@ public class GameController implements GameStateUpdateListener{
             }
         }
     }
-    public void generateDocumentation() {
-        FileChooser fileChooser = GameIOUtil.configureFileChooser(
-                "Choose directory to save documentation",
-                "HTML file",
-                "*.html");
-        File saveFile = fileChooser.showSaveDialog(boardGrid.getScene().getWindow());
-        PrintDocumentationUtil.getInstance().printDocumentation(saveFile);
-    }
 
     public void sendGameState(GameSaveState gameState) throws IOException {
         if (MainApplication.getUserType() == UserType.SERVER && gameServer != null) {
@@ -388,7 +393,6 @@ public class GameController implements GameStateUpdateListener{
             gameClient.sendGameState(gameState);
         }
     }
-
 
     @Override
     public void onGameStateReceived(GameSaveState gameState) {

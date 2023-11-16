@@ -4,3 +4,9 @@
 [INFO] 2023/11/16 20:11:43: Client is running...
 [INFO] 2023/11/16 20:11:43: Client connected to server on port 49155
 [INFO] 2023/11/16 20:11:43: Client successfully connected to server at localhost:49155
+[INFO] 2023/11/16 21:06:38: Server check: No server running on port 49155
+[INFO] 2023/11/16 21:06:38: Server is running...
+[INFO] 2023/11/16 21:06:38: Server successfully started on port 49155
+[INFO] 2023/11/16 21:06:48: Client is running...
+[INFO] 2023/11/16 21:06:48: Client connected to server on port 49155
+[INFO] 2023/11/16 21:06:48: Client successfully connected to server at localhost:49155
