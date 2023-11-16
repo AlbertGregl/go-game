@@ -13,14 +13,16 @@ public class GameSaveState implements Serializable {
     private final int boardSize;
     private final int blackStonesLeft;
     private final int whiteStonesLeft;
+    private final int currentPlayer;
 
-    public GameSaveState(int[][] boardState, int blackCaptures, int whiteCaptures, int boardSize, int blackStonesLeft, int whiteStonesLeft) {
+    public GameSaveState(int[][] boardState, int blackCaptures, int whiteCaptures, int boardSize, int blackStonesLeft, int whiteStonesLeft, int currentPlayer) {
         this.boardState = boardState;
         this.blackCaptures = blackCaptures;
         this.whiteCaptures = whiteCaptures;
         this.boardSize = boardSize;
         this.blackStonesLeft = blackStonesLeft;
         this.whiteStonesLeft = whiteStonesLeft;
+        this.currentPlayer = currentPlayer;
     }
 
     public int[][] getBoardState() {
@@ -45,6 +47,10 @@ public class GameSaveState implements Serializable {
 
     public int getWhiteStonesLeft() {
         return whiteStonesLeft;
+    }
+
+    public int getCurrentPlayer() {
+        return currentPlayer;
     }
 }
 

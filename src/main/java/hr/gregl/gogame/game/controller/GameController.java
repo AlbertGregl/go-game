@@ -1,9 +1,13 @@
 package hr.gregl.gogame.game.controller;
 
-
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
+import hr.gregl.gogame.game.model.UserType;
 import hr.gregl.gogame.game.utility.*;
+import hr.gregl.gogame.game.MainApplication;
+import hr.gregl.gogame.game.networking.GameClient;
+import hr.gregl.gogame.game.networking.GameServer;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -17,12 +21,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
-
+import hr.gregl.gogame.game.networking.GameStateUpdateListener;
 import java.io.*;
 
 
-public class GameController {
-
+public class GameController implements GameStateUpdateListener{
 
     private final GameLogic gameLogic = new GameLogic();
     @FXML
@@ -59,6 +62,8 @@ public class GameController {
     public RadioButton board13x13RadioBtn;
     @FXML
     public RadioButton board9x9RadioBtn;
+    private GameServer gameServer;
+    private GameClient gameClient;
 
 
     @FXML
@@ -116,6 +121,16 @@ public class GameController {
         refreshBoard();
         updateStonesLeftLabels();
         gameOverCheck();
+
+        GameSaveState saveState = createGameSaveState();
+
+        try {
+            sendGameState(saveState);
+        } catch (IOException e) {
+            LogUtil.logError(e);
+            throw new RuntimeException(e);
+        }
+
     }
 
     private void updateCurrentPlayerLbl(int currentPlayerBeforeMove, Pane clickedPane) {
@@ -128,7 +143,8 @@ public class GameController {
             playerTurnPane.getStyleClass().removeAll("player2Turn");
             playerTurnPane.getStyleClass().add("player1Turn");
         }
-        statusLabel.setText(player + " moved to " + clickedPane.getId());
+        String paneId = clickedPane != null ? clickedPane.getId() : "N/A";
+        statusLabel.setText(player + " moved to " + paneId);
     }
 
     @FXML
@@ -303,22 +319,26 @@ public class GameController {
 
         if (saveFile != null) {
             try {
-                int[][] boardState = gameLogic.getBoard();
-                GameSaveState saveState = new GameSaveState(
-                        boardState,
-                        gameLogic.getBlackCaptures(),
-                        gameLogic.getWhiteCaptures(),
-                        GameConfig.getInstance().getBoardSize(),
-                        GameConfig.getInstance().getBlackStonesLeft(),
-                        GameConfig.getInstance().getWhiteStonesLeft()
-                );
+                GameSaveState saveState = createGameSaveState();
 
                 GameIOUtil.saveGame(saveFile, saveState);
 
             } catch (IOException e) {
-                e.printStackTrace();
+                LogUtil.logError(e);
             }
         }
+    }
+
+    private GameSaveState createGameSaveState() {
+        int[][] boardState = gameLogic.getBoard();
+        return new GameSaveState(
+                boardState,
+                gameLogic.getBlackCaptures(),
+                gameLogic.getWhiteCaptures(),
+                GameConfig.getInstance().getBoardSize(),
+                GameConfig.getInstance().getBlackStonesLeft(),
+                GameConfig.getInstance().getWhiteStonesLeft(),
+                gameLogic.getCurrentPlayer());
     }
 
     public void handleLoadGameAction() {
@@ -344,7 +364,7 @@ public class GameController {
                 updateStonesLeftLabels();
 
             } catch (IOException | ClassNotFoundException e) {
-                e.printStackTrace();
+                LogUtil.logError(e);
             }
         }
     }
@@ -355,5 +375,49 @@ public class GameController {
                 "*.html");
         File saveFile = fileChooser.showSaveDialog(boardGrid.getScene().getWindow());
         PrintDocumentationUtil.getInstance().printDocumentation(saveFile);
+    }
+
+    public void sendGameState(GameSaveState gameState) throws IOException {
+        if (MainApplication.getUserType() == UserType.SERVER && gameServer != null) {
+            try {
+                gameServer.sendGameStateToClient(gameState);
+            } catch (IOException e) {
+                LogUtil.logError(e);
+            }
+        } else if (MainApplication.getUserType() == UserType.CLIENT && gameClient != null) {
+            gameClient.sendGameState(gameState);
+        }
+    }
+
+
+    @Override
+    public void onGameStateReceived(GameSaveState gameState) {
+        Platform.runLater(() -> {
+            gameLogic.setBoard(gameState.getBoardState());
+            gameLogic.setBlackCaptures(gameState.getBlackCaptures());
+            gameLogic.setWhiteCaptures(gameState.getWhiteCaptures());
+
+            GameConfig.setBlackStonesLeft(gameState.getBlackStonesLeft());
+            GameConfig.setWhiteStonesLeft(gameState.getWhiteStonesLeft());
+
+            refreshBoard();
+            updateCaptureLabels();
+            updateStonesLeftLabels();
+
+            updateCurrentPlayerTurn(gameState);
+        });
+    }
+
+    private void updateCurrentPlayerTurn(GameSaveState gameState) {
+        int currentPlayer = gameState.getCurrentPlayer();
+        updateCurrentPlayerLbl(currentPlayer, null);
+    }
+
+    public void setGameServer(GameServer gameServer) {
+        this.gameServer = gameServer;
+    }
+
+    public void setGameClient(GameClient gameClient) {
+        this.gameClient = gameClient;
     }
 }
