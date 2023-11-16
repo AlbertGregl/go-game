@@ -1,1 +1,2 @@
-# Project assignment for Java 2 Class; multiplayer game "GO"
+# game "GO"
+run game with "javafx:run -f pom.xml"
