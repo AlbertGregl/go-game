@@ -71,6 +71,9 @@ public class GameController implements GameStateUpdateListener{
     @FXML
     public RadioButton board9x9RadioBtn;
     //endregion
+
+    private boolean isGameOver = false;
+
     @FXML
     public void initialize() {
         initUserInterface();
@@ -127,7 +130,7 @@ public class GameController implements GameStateUpdateListener{
         updateCaptureLabels();
         refreshBoard();
         updateStonesLeftLabels();
-        gameOverCheck();
+        isGameOver = gameOverCheck();
 
         if (MainApplication.getUserType() != UserType.SINGLE_PLAYER) {
             GameSaveState saveState = createGameSaveState();
@@ -162,6 +165,17 @@ public class GameController implements GameStateUpdateListener{
         displayScore(gameLogic.calculateScore(1), gameLogic.calculateScore(2));
         overlayPane.setVisible(true);
         surrenderBtn.setVisible(false);
+
+        isGameOver = true;
+        if (MainApplication.getUserType() != UserType.SINGLE_PLAYER) {
+            GameSaveState saveState = createGameSaveState();
+            try {
+                sendGameState(saveState);
+            } catch (IOException e) {
+                LogUtil.logError(e);
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @FXML
@@ -197,7 +211,7 @@ public class GameController implements GameStateUpdateListener{
         statusLabel.setText(player + " moved to " + paneId);
     }
 
-    private void gameOverCheck() {
+    private boolean gameOverCheck() {
         if (gameLogic.isGameOver()) {
             int player1Score = gameLogic.calculateScore(1);
             int player2Score = gameLogic.calculateScore(2);
@@ -205,7 +219,10 @@ public class GameController implements GameStateUpdateListener{
             displayScore(player1Score, player2Score);
             overlayPane.setVisible(true);
             surrenderBtn.setVisible(false);
+
+            return true;
         }
+        return false;
     }
 
     private void displayScore(int player1Score, int player2Score) {
@@ -367,7 +384,9 @@ public class GameController implements GameStateUpdateListener{
                 GameConfig.getInstance().getBoardSize(),
                 GameConfig.getInstance().getBlackStonesLeft(),
                 GameConfig.getInstance().getWhiteStonesLeft(),
-                gameLogic.getCurrentPlayer());
+                gameLogic.getCurrentPlayer(),
+                isGameOver
+        );
     }
 
     public void handleLoadGameAction() {
@@ -406,6 +425,14 @@ public class GameController implements GameStateUpdateListener{
         LogUtil.logInfo(LogUtil.infoLogMsg8 + gameState.toString());
         gameLogic.setCurrentPlayer(gameState.getCurrentPlayer());
         Platform.runLater(() -> gameStateLoadReceive(gameState));
+
+        if (gameState.isGameOver()) {
+            Platform.runLater(() -> {
+                displayScore(gameLogic.calculateScore(1), gameLogic.calculateScore(2));
+                overlayPane.setVisible(true);
+                surrenderBtn.setVisible(false);
+            });
+        }
     }
 
     private void gameStateLoadReceive(GameSaveState gameState) {
@@ -416,6 +443,7 @@ public class GameController implements GameStateUpdateListener{
         gameLogic.setWhiteCaptures(gameState.getWhiteCaptures());
         GameConfig.setBlackStonesLeft(gameState.getBlackStonesLeft());
         GameConfig.setWhiteStonesLeft(gameState.getWhiteStonesLeft());
+        isGameOver = gameState.isGameOver();
 
         updateCaptureLabels();
         refreshBoard();
