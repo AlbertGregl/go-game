@@ -2,6 +2,7 @@ package hr.gregl.gogame.game.utility;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class GameSaveState implements Serializable {
     @Serial
@@ -51,6 +52,19 @@ public class GameSaveState implements Serializable {
 
     public int getCurrentPlayer() {
         return currentPlayer;
+    }
+
+    @Override
+    public String toString() {
+        return "GameSaveState{" +
+                "boardState=" + Arrays.deepToString(boardState) +
+                ", blackCaptures=" + blackCaptures +
+                ", whiteCaptures=" + whiteCaptures +
+                ", boardSize=" + boardSize +
+                ", blackStonesLeft=" + blackStonesLeft +
+                ", whiteStonesLeft=" + whiteStonesLeft +
+                ", currentPlayer=" + currentPlayer +
+                '}';
     }
 }
 

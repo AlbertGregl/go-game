@@ -77,6 +77,7 @@ public class GameController implements GameStateUpdateListener{
     }
     @FXML
     private void handleCellClick(MouseEvent event) {
+        LogUtil.logDebug(LogUtil.debugLogMsg1 + "[" + MainApplication.getUserType() + "]");
 
         if ((MainApplication.getUserType() == UserType.SERVER && gameLogic.getCurrentPlayer() != 1) ||
                 (MainApplication.getUserType() == UserType.CLIENT && gameLogic.getCurrentPlayer() != 2)) {
@@ -104,13 +105,14 @@ public class GameController implements GameStateUpdateListener{
         int currentPlayerBeforeMove = gameLogic.getCurrentPlayer();
 
         if (gameLogic.isValidMove(gameRow, gameCol, currentPlayerBeforeMove)) {
-            System.out.println("Invalid move by " + currentPlayerBeforeMove + " at (" + gameRow + "," + gameCol + ")"); // debug
+            LogUtil.logDebug(LogUtil.debugLogMsg4 + currentPlayerBeforeMove + " at (" + gameRow + "," + gameCol + ")");
             return;
         }
 
         gameLogic.placeStone(gameRow, gameCol, currentPlayerBeforeMove);
+        LogUtil.logInfo(LogUtil.infoLogMsg9 + gameRow + ", " + gameCol + " by player " + currentPlayerBeforeMove);
 
-        updateCurrentPlayerLbl(currentPlayerBeforeMove, clickedPane);
+        updateCurrentPlayerLbl(clickedPane);
 
         Circle stone = new Circle(clickedPane.getWidth() / 2, clickedPane.getHeight() / 2, clickedPane.getWidth() / 2 - 5);
         if (currentPlayerBeforeMove == 1) {
@@ -120,6 +122,8 @@ public class GameController implements GameStateUpdateListener{
         }
         clickedPane.getChildren().add(stone);
 
+        gameLogic.switchCurrentPlayer();
+
         updateCaptureLabels();
         refreshBoard();
         updateStonesLeftLabels();
@@ -128,13 +132,13 @@ public class GameController implements GameStateUpdateListener{
         if (MainApplication.getUserType() != UserType.SINGLE_PLAYER) {
             GameSaveState saveState = createGameSaveState();
             try {
+                LogUtil.logDebug(LogUtil.debugLogMsg2 + gameLogic.getCurrentPlayer());
                 sendGameState(saveState);
             } catch (IOException e) {
                 LogUtil.logError(e);
                 throw new RuntimeException(e);
             }
         }
-
     }
     @FXML
     public void handleRestart() {
@@ -178,10 +182,11 @@ public class GameController implements GameStateUpdateListener{
         mainMenuPane.setVisible(true);
     }
 
-    private void updateCurrentPlayerLbl(int currentPlayerBeforeMove, Pane clickedPane) {
-        String player = (currentPlayerBeforeMove == 1) ? "Player 1 (Black)" : "Player 2 (White)";
-        playerTurnLabel.setText((currentPlayerBeforeMove == 1) ? "Player 2 (White) Turn" : "Player 1 (Black) Turn");
-        if (currentPlayerBeforeMove == 1) {
+    private void updateCurrentPlayerLbl(Pane clickedPane) {
+        int currentPlayer = gameLogic.getCurrentPlayer();
+        String player = (currentPlayer == 1) ? "Player 1 (Black)" : "Player 2 (White)";
+        playerTurnLabel.setText((currentPlayer == 1) ? "Player 2 (White) Turn" : "Player 1 (Black) Turn");
+        if (currentPlayer == 1) {
             playerTurnPane.getStyleClass().removeAll("player1Turn");
             playerTurnPane.getStyleClass().add("player2Turn");
         } else {
@@ -275,6 +280,9 @@ public class GameController implements GameStateUpdateListener{
                 Pane cell = getPaneFromGrid(boardGrid, i + 1, j + 1);
                 int cellState = gameLogic.getCellValue(i, j);
                 assert cell != null;
+
+                LogUtil.logDebug(LogUtil.debugLogMsg8 + "[" + i + "," + j + "] to state: " + cellState);
+
                 if (cellState == 0) {
                     cell.getChildren().clear();
                 } else {
@@ -351,9 +359,9 @@ public class GameController implements GameStateUpdateListener{
     }
 
     private GameSaveState createGameSaveState() {
-        int[][] boardState = gameLogic.getBoard();
+        int[][] currentBoardState = gameLogic.getGameBoard().getBoardCopy();
         return new GameSaveState(
-                boardState,
+                currentBoardState,
                 gameLogic.getBlackCaptures(),
                 gameLogic.getWhiteCaptures(),
                 GameConfig.getInstance().getBoardSize(),
@@ -395,15 +403,13 @@ public class GameController implements GameStateUpdateListener{
 
     @Override
     public void onGameStateReceived(GameSaveState gameState) {
-        Platform.runLater(() -> {
-            gameLogic.switchCurrentPlayer();
-            gameStateLoadReceive(gameState);
-
-            //updateCurrentPlayerTurn(gameState);
-        });
+        LogUtil.logInfo(LogUtil.infoLogMsg8 + gameState.toString());
+        gameLogic.setCurrentPlayer(gameState.getCurrentPlayer());
+        Platform.runLater(() -> gameStateLoadReceive(gameState));
     }
 
     private void gameStateLoadReceive(GameSaveState gameState) {
+        LogUtil.logDebug(LogUtil.debugLogMsg3);
         gameLogic.setBoard(gameState.getBoardState());
         GameConfig.setBoardSize(gameState.getBoardSize());
         gameLogic.setBlackCaptures(gameState.getBlackCaptures());
@@ -414,11 +420,7 @@ public class GameController implements GameStateUpdateListener{
         updateCaptureLabels();
         refreshBoard();
         updateStonesLeftLabels();
-    }
-
-    private void updateCurrentPlayerTurn(GameSaveState gameState) {
-        gameLogic.setCurrentPlayer(gameState.getCurrentPlayer());
-        updateCurrentPlayerLbl(gameLogic.getCurrentPlayer(), null);
+        LogUtil.logDebug(LogUtil.debugLogMsg9 + gameLogic.getCurrentPlayer());
     }
 
     public void setGameServer(GameServer gameServer) {

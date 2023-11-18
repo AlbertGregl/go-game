@@ -14,10 +14,6 @@ public class GameBoard {
         }
     }
 
-    public int[][] getBoard() {
-        return board;
-    }
-
     public void setBoard(int[][] newBoard) {
         if (newBoard != null && newBoard.length == board.length && newBoard[0].length == board[0].length) {
             for (int i = 0; i < board.length; i++) {

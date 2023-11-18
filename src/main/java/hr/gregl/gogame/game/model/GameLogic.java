@@ -44,9 +44,6 @@ public class GameLogic {
         gameBoard.setBoard(newBoard);
     }
 
-    public int[][] getBoard() {
-        return gameBoard.getBoard();
-    }
     public int getBlackCaptures() {
         return blackCaptures;
     }
@@ -138,7 +135,6 @@ public class GameLogic {
         }
 
         previousBoardState = gameBoard.getBoardCopy();
-        currentPlayer = (currentPlayer == 1) ? 2 : 1;
     }
 
     private List<Point> findCapturedStones(int row, int col, int player) {
@@ -218,5 +214,9 @@ public class GameLogic {
 
     public void setCurrentPlayer(int currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public GameBoard getGameBoard() {
+        return gameBoard;
     }
 }
