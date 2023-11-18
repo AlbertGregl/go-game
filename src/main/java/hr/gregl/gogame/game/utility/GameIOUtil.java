@@ -30,19 +30,4 @@ public class GameIOUtil {
     }
 
 
-    public static byte[] serializeGameState(GameSaveState gameState) throws IOException {
-        try (ByteArrayOutputStream bos = new ByteArrayOutputStream();
-             ObjectOutputStream out = new ObjectOutputStream(bos)) {
-            out.writeObject(gameState);
-            return bos.toByteArray();
-        }
-    }
-
-    public static GameSaveState deserializeGameState(byte[] bytes) throws IOException, ClassNotFoundException {
-        try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
-             ObjectInputStream in = new ObjectInputStream(bis)) {
-            return (GameSaveState) in.readObject();
-        }
-    }
-
 }

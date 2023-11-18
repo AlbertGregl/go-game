@@ -28,7 +28,7 @@ public class PrintDocumentationUtil {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(saveFile))) {
             processDirectory(TARGET_DIR, writer);
         } catch (IOException e) {
-            e.printStackTrace();
+            LogUtil.logError(e);
         }
     }
 
@@ -42,7 +42,7 @@ public class PrintDocumentationUtil {
                     Class<?> cls = Class.forName(className);
                     documentClasses(cls, writer);
                 } catch (ClassNotFoundException | IOException e) {
-                    e.printStackTrace();
+                    LogUtil.logError(e);
                 }
             }
         }

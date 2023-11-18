@@ -17,7 +17,6 @@ public class LogUtil {
     public static final String infoLogMsg8 = "Game state received: ";
     public static final String infoLogMsg9 = "Placing stone at: ";
     public static final String warningLogMsg1 = "Server already running.";
-    public static final String errorLogMsg1 = "Inconsistent board size in received game state.";
     public static final String debugLogMsg1 = "handleCellClick: Click event received by user: ";
     public static final String debugLogMsg2 = "Sending game state. Current player before sending: ";
     public static final String debugLogMsg3 = "Loading received game state";
@@ -35,9 +34,6 @@ public class LogUtil {
         String message = e.getMessage();
         log("ERROR", message, errorLogFile);
         e.printStackTrace(System.err);
-    }
-    public static void logError(String message) {
-        log("ERROR", message, errorLogFile);
     }
 
     public static void logInfo(String message) {
