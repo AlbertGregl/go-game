@@ -48,6 +48,14 @@ public class ClientHandler implements Runnable {
     }
 
     static void cleanClientHandler(ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream, Socket socket) {
+        closeSocket(objectInputStream, objectOutputStream, socket);
+    }
+
+    public void closeConnection() {
+        closeSocket(objectInputStream, objectOutputStream, socket);
+    }
+
+    private static void closeSocket(ObjectInputStream objectInputStream, ObjectOutputStream objectOutputStream, Socket socket) {
         try {
             if (objectInputStream != null) {
                 objectInputStream.close();

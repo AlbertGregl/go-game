@@ -2,3 +2,7 @@
 [ERROR] 2023/11/17 20:28:44: Connection reset
 [ERROR] 2023/11/17 20:37:06: Connection reset
 [ERROR] 2023/11/17 20:44:44: Connection reset
+[ERROR] 2023/11/18 10:10:00: Connection reset
+[ERROR] 2023/11/18 10:28:29: null
+[ERROR] 2023/11/18 10:28:29: Socket closed
+[ERROR] 2023/11/18 10:28:30: Socket closed

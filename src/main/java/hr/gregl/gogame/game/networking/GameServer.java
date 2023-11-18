@@ -39,4 +39,18 @@ public class GameServer {
     public void sendGameStateToClient(GameSaveState gameState) throws IOException {
         clientHandler.sendGameState(gameState);
     }
+
+    public void shutdownServer() {
+        try {
+            if (clientHandler != null) {
+                clientHandler.closeConnection();
+            }
+            if (serverSocket != null && !serverSocket.isClosed()) {
+                serverSocket.close();
+            }
+        } catch (IOException e) {
+            LogUtil.logError(e);
+        }
+    }
+
 }

@@ -50,4 +50,20 @@ public class GameClient {
     private void cleanup() {
         ClientHandler.cleanClientHandler(objectInputStream, objectOutputStream, clientSocket);
     }
+
+    public void disconnect() {
+        try {
+            if (clientSocket != null && !clientSocket.isClosed()) {
+                clientSocket.close();
+            }
+            if (objectInputStream != null) {
+                objectInputStream.close();
+            }
+            if (objectOutputStream != null) {
+                objectOutputStream.close();
+            }
+        } catch (IOException e) {
+            LogUtil.logError(e);
+        }
+    }
 }

@@ -396,6 +396,7 @@ public class GameController implements GameStateUpdateListener{
     @Override
     public void onGameStateReceived(GameSaveState gameState) {
         Platform.runLater(() -> {
+            gameLogic.switchCurrentPlayer();
             gameStateLoadReceive(gameState);
 
             //updateCurrentPlayerTurn(gameState);

@@ -50,6 +50,18 @@ public class MainApplication extends Application {
         selectionController.setMainApplication(this);
 
         primaryStage.show();
+
+        primaryStage.setOnCloseRequest(windowEvent -> {
+            // release resources on exit
+            if (gameServer != null) {
+                gameServer.shutdownServer();
+            }
+            if (gameClient != null) {
+                gameClient.disconnect();
+            }
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
     public void startServer(GameStateUpdateListener listener) {
@@ -135,4 +147,5 @@ public class MainApplication extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }
