@@ -10,7 +10,6 @@ import hr.gregl.gogame.game.networking.GameClient;
 import hr.gregl.gogame.game.networking.GameServer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -20,13 +19,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import hr.gregl.gogame.game.networking.GameStateUpdateListener;
 import java.io.*;
 //endregion
 
-public class GameController implements GameStateUpdateListener{
+public class GameController implements GameStateUpdateListener, CellClickHandler {
 
     //region Game Logic Instance
     private final GameLogic gameLogic = new GameLogic();
@@ -79,7 +77,8 @@ public class GameController implements GameStateUpdateListener{
         initUserInterface();
     }
     @FXML
-    private void handleCellClick(MouseEvent event) {
+    @Override
+    public void handleCellClick(MouseEvent event) {
         LogUtil.logDebug(LogUtil.debugLogMsg1 + "[" + MainApplication.getUserType() + "]");
 
         if ((MainApplication.getUserType() == UserType.SERVER && gameLogic.getCurrentPlayer() != 1) ||
@@ -147,7 +146,7 @@ public class GameController implements GameStateUpdateListener{
     public void handleRestart() {
         gameLogic.reset();
 
-        createGameBoard();
+        GameBoardUI.createGameBoard(boardGrid, this);
 
         statusLabel.setText("Game started.");
         blackCapturesLabel.setText("Captures: 0");
@@ -238,52 +237,7 @@ public class GameController implements GameStateUpdateListener{
         }
     }
 
-    private void createGameBoard() {
-        boardGrid.getChildren().clear();
 
-        setBoardBorderLabels();
-
-        int boardSize = GameConfig.getInstance().getBoardSize();
-        int maxIndex = GameConfig.getInstance().getBoardSizeWithBorders() - 1; // boardSize + 1
-
-        for (int i = 1; i < maxIndex; i++) {
-            for (int j = 1; j < maxIndex; j++) {
-                Pane pane = getPane(i, j, boardSize);
-
-                boardGrid.add(pane, j, i);
-            }
-        }
-    }
-
-    private Pane getPane(int i, int j, int boardSize) {
-        Pane pane = new Pane();
-        pane.setPrefSize(200, 200);
-        pane.setId(GameConfig.getPaneId(i, j));
-
-        if (i == 1 && j == 1) {
-            pane.setBackground(BoardImageUtil.CORNER_TOP_LEFT.getBackground());
-        } else if (i == 1 && j == boardSize) {
-            pane.setBackground(BoardImageUtil.CORNER_TOP_RIGHT.getBackground());
-        } else if (i == boardSize && j == 1) {
-            pane.setBackground(BoardImageUtil.CORNER_BOTTOM_LEFT.getBackground());
-        } else if (i == boardSize && j == boardSize) {
-            pane.setBackground(BoardImageUtil.CORNER_BOTTOM_RIGHT.getBackground());
-        } else if (i == 1) {
-            pane.setBackground(BoardImageUtil.TOP_SIDE.getBackground());
-        } else if (i == boardSize) {
-            pane.setBackground(BoardImageUtil.BOTTOM_SIDE.getBackground());
-        } else if (j == 1) {
-            pane.setBackground(BoardImageUtil.LEFT_SIDE.getBackground());
-        } else if (j == boardSize) {
-            pane.setBackground(BoardImageUtil.RIGHT_SIDE.getBackground());
-        } else if (GameConfig.isStarPoint(i, j)) {
-            pane.setBackground(BoardImageUtil.STAR.getBackground());
-        } else {
-            pane.setBackground(BoardImageUtil.CELL.getBackground());
-        }
-        pane.setOnMouseClicked(this::handleCellClick);
-        return pane;
-    }
 
 
     private void updateCaptureLabels() {
@@ -311,22 +265,7 @@ public class GameController implements GameStateUpdateListener{
         }
     }
 
-    private void setBoardBorderLabels() {
-        for (int i = 1; i <= GameConfig.getInstance().getBoardSize(); i++) {
-            Label columnLabel = new Label(String.valueOf(GameConfig.getColumnLabel(i - 1)));
-            configureLabel(columnLabel);
-            boardGrid.add(columnLabel, i, 0);
 
-            Label rowLabel = new Label(String.valueOf(GameConfig.getRowLabel(i - 1)));
-            configureLabel(rowLabel);
-            boardGrid.add(rowLabel, 0, i);
-        }
-    }
-
-    private void configureLabel(Label label) {
-        label.setAlignment(Pos.CENTER);
-        label.setFont(new Font("MingLiU-ExtB", 24));
-    }
 
     private Pane getPaneFromGrid(GridPane grid, int row, int col) {
         for (Node node : grid.getChildren()) {
