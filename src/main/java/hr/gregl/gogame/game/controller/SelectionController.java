@@ -19,15 +19,20 @@ public class SelectionController {
         MainApplication.setUserType(UserType.CLIENT);
         closeStage(event);
     }
+    @FXML
+    public void startSinglePlayer(ActionEvent actionEvent) {
+        MainApplication.setUserType(UserType.SINGLE_PLAYER);
+        closeStage(actionEvent);
+    }
 
+    public void setMainApplication(MainApplication mainApp) {
+        this.mainApp = mainApp;
+    }
+    
     private void closeStage(ActionEvent event) {
         Node source = (Node) event.getSource();
         Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
         mainApp.startGame(UserType.valueOf(MainApplication.getUserType().toString()));
-    }
-
-    public void setMainApplication(MainApplication mainApp) {
-        this.mainApp = mainApp;
     }
 }

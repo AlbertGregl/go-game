@@ -77,6 +77,13 @@ public class GameController implements GameStateUpdateListener{
     }
     @FXML
     private void handleCellClick(MouseEvent event) {
+
+        if ((MainApplication.getUserType() == UserType.SERVER && gameLogic.getCurrentPlayer() != 1) ||
+                (MainApplication.getUserType() == UserType.CLIENT && gameLogic.getCurrentPlayer() != 2)) {
+            statusLabel.setText("Not your turn!");
+            return;
+        }
+
         Pane clickedPane = (Pane) event.getSource();
 
         Integer colInteger = GridPane.getColumnIndex(clickedPane);
@@ -118,13 +125,14 @@ public class GameController implements GameStateUpdateListener{
         updateStonesLeftLabels();
         gameOverCheck();
 
-        GameSaveState saveState = createGameSaveState();
-
-        try {
-            sendGameState(saveState);
-        } catch (IOException e) {
-            LogUtil.logError(e);
-            throw new RuntimeException(e);
+        if (MainApplication.getUserType() != UserType.SINGLE_PLAYER) {
+            GameSaveState saveState = createGameSaveState();
+            try {
+                sendGameState(saveState);
+            } catch (IOException e) {
+                LogUtil.logError(e);
+                throw new RuntimeException(e);
+            }
         }
 
     }
@@ -365,16 +373,7 @@ public class GameController implements GameStateUpdateListener{
             try {
                 GameSaveState loadedState = GameIOUtil.loadGame(loadFile);
 
-                gameLogic.setBoard(loadedState.getBoardState());
-                GameConfig.setBoardSize(loadedState.getBoardSize());
-                gameLogic.setBlackCaptures(loadedState.getBlackCaptures());
-                gameLogic.setWhiteCaptures(loadedState.getWhiteCaptures());
-                GameConfig.setBlackStonesLeft(loadedState.getBlackStonesLeft());
-                GameConfig.setWhiteStonesLeft(loadedState.getWhiteStonesLeft());
-
-                updateCaptureLabels();
-                refreshBoard();
-                updateStonesLeftLabels();
+                gameStateLoadReceive(loadedState);
 
             } catch (IOException | ClassNotFoundException e) {
                 LogUtil.logError(e);
@@ -397,24 +396,28 @@ public class GameController implements GameStateUpdateListener{
     @Override
     public void onGameStateReceived(GameSaveState gameState) {
         Platform.runLater(() -> {
-            gameLogic.setBoard(gameState.getBoardState());
-            gameLogic.setBlackCaptures(gameState.getBlackCaptures());
-            gameLogic.setWhiteCaptures(gameState.getWhiteCaptures());
+            gameStateLoadReceive(gameState);
 
-            GameConfig.setBlackStonesLeft(gameState.getBlackStonesLeft());
-            GameConfig.setWhiteStonesLeft(gameState.getWhiteStonesLeft());
-
-            refreshBoard();
-            updateCaptureLabels();
-            updateStonesLeftLabels();
-
-            updateCurrentPlayerTurn(gameState);
+            //updateCurrentPlayerTurn(gameState);
         });
     }
 
+    private void gameStateLoadReceive(GameSaveState gameState) {
+        gameLogic.setBoard(gameState.getBoardState());
+        GameConfig.setBoardSize(gameState.getBoardSize());
+        gameLogic.setBlackCaptures(gameState.getBlackCaptures());
+        gameLogic.setWhiteCaptures(gameState.getWhiteCaptures());
+        GameConfig.setBlackStonesLeft(gameState.getBlackStonesLeft());
+        GameConfig.setWhiteStonesLeft(gameState.getWhiteStonesLeft());
+
+        updateCaptureLabels();
+        refreshBoard();
+        updateStonesLeftLabels();
+    }
+
     private void updateCurrentPlayerTurn(GameSaveState gameState) {
-        int currentPlayer = gameState.getCurrentPlayer();
-        updateCurrentPlayerLbl(currentPlayer, null);
+        gameLogic.setCurrentPlayer(gameState.getCurrentPlayer());
+        updateCurrentPlayerLbl(gameLogic.getCurrentPlayer(), null);
     }
 
     public void setGameServer(GameServer gameServer) {

@@ -211,4 +211,12 @@ public class GameLogic {
         initializePreviousBoardState();
         GameConfig.getInstance().resetStones();
     }
+
+    public void switchCurrentPlayer() {
+        currentPlayer = (currentPlayer == 1) ? 2 : 1;
+    }
+
+    public void setCurrentPlayer(int currentPlayer) {
+        this.currentPlayer = currentPlayer;
+    }
 }

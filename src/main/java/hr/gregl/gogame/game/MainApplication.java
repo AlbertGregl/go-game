@@ -88,7 +88,7 @@ public class MainApplication extends Application {
     }
 
     public void startGame(UserType userType) {
-        Platform.runLater(() -> { // starting a new JavaFX application from a non-JavaFX thread
+        Platform.runLater(() -> {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource(gameView));
                 Scene scene = new Scene(loader.load());
@@ -99,12 +99,15 @@ public class MainApplication extends Application {
 
                 if (userType == UserType.SERVER) {
                     startServer(gameController);
-                } else {
+                    primaryStage.setTitle(gameViewTitleServer);
+                } else if(userType == UserType.CLIENT){
                     connectToServer(gameController);
+                    primaryStage.setTitle(gameViewTitleClient);
+                } else {
+                    primaryStage.setTitle(gameViewTitle);
                 }
 
                 primaryStage.getIcons().add(appIcon);
-                primaryStage.setTitle(userType == UserType.SERVER ? gameViewTitleServer : gameViewTitleClient);
                 primaryStage.setScene(scene);
                 primaryStage.show();
             } catch (IOException e) {
