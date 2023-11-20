@@ -1,6 +1,7 @@
 package hr.gregl.gogame.game.controller;
 
 //region Imports
+
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
 import hr.gregl.gogame.game.model.UserType;
@@ -11,16 +12,14 @@ import hr.gregl.gogame.game.networking.GameServer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import hr.gregl.gogame.game.networking.GameStateUpdateListener;
+
 import java.io.*;
 //endregion
 
@@ -68,6 +67,16 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
     public RadioButton board13x13RadioBtn;
     @FXML
     public RadioButton board9x9RadioBtn;
+    @FXML
+    public Button btnMsgSend;
+    @FXML
+    public TextField textFieldMsgTransmit;
+    @FXML
+    public TextArea textAreaMsgReceive;
+    @FXML
+    public GridPane gPaneMessages;
+    @FXML
+    public ScrollPane scrollPaneMsgReceived;
     //endregion
 
     private boolean isGameOver = false;
@@ -76,6 +85,7 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
     public void initialize() {
         initUserInterface();
     }
+
     @FXML
     @Override
     public void handleCellClick(MouseEvent event) {
@@ -84,6 +94,10 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
         if ((MainApplication.getUserType() == UserType.SERVER && gameLogic.getCurrentPlayer() != 1) ||
                 (MainApplication.getUserType() == UserType.CLIENT && gameLogic.getCurrentPlayer() != 2)) {
             statusLabel.setText("Not your turn!");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle(MainApplication.getUserType().toString());
+            alert.setHeaderText(null);
+            alert.setContentText("It's not your turn!");
             return;
         }
 
@@ -114,7 +128,9 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
         gameLogic.placeStone(gameRow, gameCol, currentPlayerBeforeMove);
         LogUtil.logInfo(LogUtil.infoLogMsg9 + gameRow + ", " + gameCol + " by player " + currentPlayerBeforeMove);
 
-        updateCurrentPlayerLbl(clickedPane);
+        if (MainApplication.getUserType() == UserType.SINGLE_PLAYER) {
+            updateCurrentPlayerLbl(clickedPane);
+        }
 
         Circle stone = new Circle(clickedPane.getWidth() / 2, clickedPane.getHeight() / 2, clickedPane.getWidth() / 2 - 5);
         if (currentPlayerBeforeMove == 1) {
@@ -142,6 +158,7 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
             }
         }
     }
+
     @FXML
     public void handleRestart() {
         gameLogic.reset();
@@ -188,11 +205,22 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
     }
 
     private void initUserInterface() {
-        playerTurnLabel.setText("Player 1 (Black) Turn");
-        playerTurnPane.getStyleClass().add("player1Turn");
+        if (MainApplication.getUserType() == UserType.SERVER || MainApplication.getUserType() == UserType.SINGLE_PLAYER) {
+            playerTurnLabel.setText("Player 1 (Black) Turn");
+            playerTurnPane.getStyleClass().add("player1Turn");
+        } else {
+            playerTurnLabel.setText("Player 2 (White) Turn");
+            playerTurnPane.getStyleClass().add("player2Turn");
+        }
         overlayPane.setVisible(false);
         surrenderBtn.setVisible(true);
         mainMenuPane.setVisible(true);
+
+        if (MainApplication.getUserType() == UserType.SINGLE_PLAYER) {
+            gPaneMessages.setVisible(false);
+        } else{
+            textAreaMsgReceive.setEditable(false);
+        }
     }
 
     private void updateCurrentPlayerLbl(Pane clickedPane) {
@@ -238,8 +266,6 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
     }
 
 
-
-
     private void updateCaptureLabels() {
         blackCapturesLabel.setText("Captures: " + gameLogic.getBlackCaptures());
         whiteCapturesLabel.setText("Captures: " + gameLogic.getWhiteCaptures());
@@ -264,7 +290,6 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
             }
         }
     }
-
 
 
     private Pane getPaneFromGrid(GridPane grid, int row, int col) {
@@ -396,5 +421,23 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
 
     public void setGameClient(GameClient gameClient) {
         this.gameClient = gameClient;
+    }
+
+    public void handleMessageSend(MouseEvent mouseEvent) {
+//        String message = textFieldMsgTransmit.getText();
+//        if (message.isEmpty()) {
+//            return;
+//        }
+//        textAreaMsgReceive.appendText("You: " + message + "\n");
+//        textFieldMsgTransmit.clear();
+//        if (MainApplication.getUserType() == UserType.SERVER) {
+//            try {
+//                gameServer.sendMessageToClient(message);
+//            } catch (IOException e) {
+//                LogUtil.logError(e);
+//            }
+//        } else if (MainApplication.getUserType() == UserType.CLIENT) {
+//            gameClient.sendMessage(message);
+//        }
     }
 }
