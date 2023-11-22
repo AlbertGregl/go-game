@@ -54,7 +54,7 @@ public class GameServer {
         }
     }
 
-    public void sendMessageToClient(MessageState messageState) {
+    public void sendMessageToClient(MessageState messageState) throws IOException {
         clientHandler.sendMessageState(messageState);
     }
 }

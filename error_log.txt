@@ -1,0 +1,14 @@
+[ERROR] 2023/11/22 18:50:31: null
+[ERROR] 2023/11/22 18:50:31: Socket closed
+[ERROR] 2023/11/22 18:50:33: Socket closed
+[ERROR] 2023/11/22 18:58:23: null
+[ERROR] 2023/11/22 18:58:23: Socket closed
+[ERROR] 2023/11/22 18:58:26: Socket closed
+[ERROR] 2023/11/22 19:07:09: null
+[ERROR] 2023/11/22 19:07:09: Socket closed
+[ERROR] 2023/11/22 19:07:13: Socket closed
+[ERROR] 2023/11/22 19:08:41: null
+[ERROR] 2023/11/22 19:08:43: Socket closed
+[ERROR] 2023/11/22 19:11:42: null
+[ERROR] 2023/11/22 19:11:42: Socket closed
+[ERROR] 2023/11/22 19:11:45: Socket closed

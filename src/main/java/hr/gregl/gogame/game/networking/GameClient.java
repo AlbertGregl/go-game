@@ -35,6 +35,8 @@ public class GameClient {
                 Object object = objectInputStream.readObject();
                 if (object instanceof GameSaveState gameState) {
                     gameStateUpdateListener.onGameStateReceived(gameState);
+                } else if (object instanceof MessageState messageState) {
+                    gameStateUpdateListener.onMessageReceived(messageState);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -68,12 +70,8 @@ public class GameClient {
         }
     }
 
-    public void sendMessage(MessageState messageState) {
-        try {
-            objectOutputStream.writeObject(messageState);
-            objectOutputStream.flush();
-        } catch (IOException e) {
-            LogUtil.logError(e);
-        }
+    public void sendMessage(MessageState messageState) throws IOException {
+        objectOutputStream.writeObject(messageState);
+        objectOutputStream.flush();
     }
 }

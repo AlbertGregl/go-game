@@ -399,14 +399,6 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
         }
     }
 
-    @Override
-    public void onMessageReceived(MessageState messageState) {
-        Platform.runLater(() -> {
-            textAreaMsgReceive.appendText(messageState.toString() + "\n");
-            scrollPaneMsgReceived.setVvalue(1.0);
-        });
-    }
-
     private void gameStateLoadReceive(GameSaveState gameState) {
         LogUtil.logDebug(LogUtil.debugLogMsg3);
         gameLogic.setBoard(gameState.getBoardState());
@@ -431,10 +423,15 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
         this.gameClient = gameClient;
     }
 
-    public void handleMessageSend() {
+    public void handleMessageSend() throws IOException {
         String message = textFieldMsgTransmit.getText();
         if (message != null && !message.isEmpty()) {
+            LogUtil.logInfo("TX: " + MainApplication.getUserType().toString() + ": " + message);
             MessageState messageState = new MessageState(message, MainApplication.getUserType().toString());
+            Platform.runLater(() -> {
+                textAreaMsgReceive.appendText(MainApplication.getUserType().toString() + ": " + message + "\n");
+                //scrollPaneMsgReceived.setVvalue(1.0);
+            });
             if (MainApplication.getUserType() == UserType.SERVER && gameServer != null) {
                 gameServer.sendMessageToClient(messageState);
             } else if (MainApplication.getUserType() == UserType.CLIENT && gameClient != null) {
@@ -442,5 +439,14 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
             }
             textFieldMsgTransmit.clear();
         }
+    }
+
+    @Override
+    public void onMessageReceived(MessageState messageState) {
+        LogUtil.logInfo("RX: " + messageState.getSender() + ": " + messageState.getMessage());
+        Platform.runLater(() -> {
+            textAreaMsgReceive.appendText(messageState.getSender() + ": " + messageState.getMessage() + "\n");
+            //scrollPaneMsgReceived.setVvalue(1.0);
+        });
     }
 }
