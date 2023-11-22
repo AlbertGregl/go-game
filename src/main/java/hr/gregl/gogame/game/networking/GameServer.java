@@ -2,6 +2,7 @@ package hr.gregl.gogame.game.networking;
 
 import hr.gregl.gogame.game.utility.GameSaveState;
 import hr.gregl.gogame.game.utility.LogUtil;
+import hr.gregl.gogame.game.utility.MessageState;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -53,4 +54,7 @@ public class GameServer {
         }
     }
 
+    public void sendMessageToClient(MessageState messageState) {
+        clientHandler.sendMessageState(messageState);
+    }
 }

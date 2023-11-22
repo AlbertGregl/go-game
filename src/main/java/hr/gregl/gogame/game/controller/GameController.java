@@ -218,7 +218,7 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
 
         if (MainApplication.getUserType() == UserType.SINGLE_PLAYER) {
             gPaneMessages.setVisible(false);
-        } else{
+        } else {
             textAreaMsgReceive.setEditable(false);
         }
     }
@@ -399,6 +399,14 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
         }
     }
 
+    @Override
+    public void onMessageReceived(MessageState messageState) {
+        Platform.runLater(() -> {
+            textAreaMsgReceive.appendText(messageState.toString() + "\n");
+            scrollPaneMsgReceived.setVvalue(1.0);
+        });
+    }
+
     private void gameStateLoadReceive(GameSaveState gameState) {
         LogUtil.logDebug(LogUtil.debugLogMsg3);
         gameLogic.setBoard(gameState.getBoardState());
@@ -423,21 +431,16 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
         this.gameClient = gameClient;
     }
 
-    public void handleMessageSend(MouseEvent mouseEvent) {
-//        String message = textFieldMsgTransmit.getText();
-//        if (message.isEmpty()) {
-//            return;
-//        }
-//        textAreaMsgReceive.appendText("You: " + message + "\n");
-//        textFieldMsgTransmit.clear();
-//        if (MainApplication.getUserType() == UserType.SERVER) {
-//            try {
-//                gameServer.sendMessageToClient(message);
-//            } catch (IOException e) {
-//                LogUtil.logError(e);
-//            }
-//        } else if (MainApplication.getUserType() == UserType.CLIENT) {
-//            gameClient.sendMessage(message);
-//        }
+    public void handleMessageSend() {
+        String message = textFieldMsgTransmit.getText();
+        if (message != null && !message.isEmpty()) {
+            MessageState messageState = new MessageState(message, MainApplication.getUserType().toString());
+            if (MainApplication.getUserType() == UserType.SERVER && gameServer != null) {
+                gameServer.sendMessageToClient(messageState);
+            } else if (MainApplication.getUserType() == UserType.CLIENT && gameClient != null) {
+                gameClient.sendMessage(messageState);
+            }
+            textFieldMsgTransmit.clear();
+        }
     }
 }

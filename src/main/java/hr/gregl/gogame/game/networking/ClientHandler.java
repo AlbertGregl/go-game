@@ -2,6 +2,7 @@ package hr.gregl.gogame.game.networking;
 
 import hr.gregl.gogame.game.utility.GameSaveState;
 import hr.gregl.gogame.game.utility.LogUtil;
+import hr.gregl.gogame.game.utility.MessageState;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -66,6 +67,15 @@ public class ClientHandler implements Runnable {
             if (socket != null && !socket.isClosed()) {
                 socket.close();
             }
+        } catch (IOException e) {
+            LogUtil.logError(e);
+        }
+    }
+
+    public void sendMessageState(MessageState messageState) {
+        try {
+            objectOutputStream.writeObject(messageState);
+            objectOutputStream.flush();
         } catch (IOException e) {
             LogUtil.logError(e);
         }

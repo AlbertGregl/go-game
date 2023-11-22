@@ -2,6 +2,7 @@ package hr.gregl.gogame.game.networking;
 
 import hr.gregl.gogame.game.utility.GameSaveState;
 import hr.gregl.gogame.game.utility.LogUtil;
+import hr.gregl.gogame.game.utility.MessageState;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -62,6 +63,15 @@ public class GameClient {
             if (objectOutputStream != null) {
                 objectOutputStream.close();
             }
+        } catch (IOException e) {
+            LogUtil.logError(e);
+        }
+    }
+
+    public void sendMessage(MessageState messageState) {
+        try {
+            objectOutputStream.writeObject(messageState);
+            objectOutputStream.flush();
         } catch (IOException e) {
             LogUtil.logError(e);
         }
