@@ -2,6 +2,8 @@ package hr.gregl.gogame.game;
 
 import hr.gregl.gogame.game.controller.GameController;
 import hr.gregl.gogame.game.controller.SelectionController;
+import hr.gregl.gogame.game.model.ConfigurationKey;
+import hr.gregl.gogame.game.model.ConfigurationReader;
 import hr.gregl.gogame.game.model.UserType;
 import hr.gregl.gogame.game.networking.GameClient;
 import hr.gregl.gogame.game.networking.GameServer;
@@ -13,8 +15,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-
-import java.awt.*;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.Objects;
@@ -22,11 +22,10 @@ import java.util.Objects;
 public class MainApplication extends Application {
 
     public static UserType userType;
-    private static final int SERVER_PORT = 49155;
-    private static final String LOCALHOST = "localhost";
     private Stage primaryStage;
     private GameServer gameServer;
     private GameClient gameClient;
+    private static final ConfigurationReader configReader = ConfigurationReader.getInstance();
     private static final String selectionView = "view/selection-view.fxml";
     private static final String selectionViewTitle = "Select Server or Client";
     private static final String gameView = "view/game-view.fxml";
@@ -71,7 +70,8 @@ public class MainApplication extends Application {
                 System.out.println(LogUtil.infoLogMsg1);
                 LogUtil.logInfo(LogUtil.infoLogMsg1);
                 try {
-                    gameServer = new GameServer(SERVER_PORT, listener);
+                    int serverPort = configReader.readIntegerValueForKey(ConfigurationKey.SERVER_PORT);
+                    gameServer = new GameServer(serverPort, listener);
                     if (listener instanceof GameController) {
                         ((GameController) listener).setGameServer(gameServer);
                     }
@@ -90,7 +90,9 @@ public class MainApplication extends Application {
             System.out.println(LogUtil.infoLogMsg2);
             LogUtil.logInfo(LogUtil.infoLogMsg2);
             try {
-                gameClient = new GameClient(LOCALHOST, SERVER_PORT, listener);
+                int serverPort = configReader.readIntegerValueForKey(ConfigurationKey.SERVER_PORT);
+                String localhost = configReader.readStringValueForKey(ConfigurationKey.HOST);
+                gameClient = new GameClient(localhost, serverPort, listener);
                 if (listener instanceof GameController) {
                     ((GameController) listener).setGameClient(gameClient);
                 }
@@ -130,13 +132,14 @@ public class MainApplication extends Application {
     }
 
     public static boolean isServerRunning() {
-        try (ServerSocket ignored = new ServerSocket(SERVER_PORT)) {
-            System.out.println(LogUtil.infoLogMsg3 + SERVER_PORT);
-            LogUtil.logInfo(LogUtil.infoLogMsg3 + SERVER_PORT);
+        int serverPort = configReader.readIntegerValueForKey(ConfigurationKey.SERVER_PORT);
+        try (ServerSocket ignored = new ServerSocket(serverPort)) {
+            System.out.println(LogUtil.infoLogMsg3 + serverPort);
+            LogUtil.logInfo(LogUtil.infoLogMsg3 + serverPort);
             return false;
         } catch (IOException e) {
-            System.out.println(LogUtil.infoLogMsg4 + SERVER_PORT);
-            LogUtil.logInfo(LogUtil.infoLogMsg4 + SERVER_PORT);
+            System.out.println(LogUtil.infoLogMsg4 + serverPort);
+            LogUtil.logInfo(LogUtil.infoLogMsg4 + serverPort);
             return true;
         }
     }

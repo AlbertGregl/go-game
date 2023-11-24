@@ -278,8 +278,6 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
                 int cellState = gameLogic.getCellValue(i, j);
                 assert cell != null;
 
-                LogUtil.logDebug(LogUtil.debugLogMsg8 + "[" + i + "," + j + "] to state: " + cellState);
-
                 if (cellState == 0) {
                     cell.getChildren().clear();
                 } else {
