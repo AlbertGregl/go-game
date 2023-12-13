@@ -17,11 +17,12 @@ public class LogUtil {
     public static final String infoLogMsg8 = "Game state received: ";
     public static final String infoLogMsg9 = "Placing stone at: ";
     public static final String warningLogMsg1 = "Server already running.";
+    public static final String warningLogMsg2 = "Failed to delete existing file: ";
+    public static final String warningLogMsg3 = "Failed to create new file: ";
     public static final String debugLogMsg1 = "handleCellClick: Click event received by user: ";
     public static final String debugLogMsg2 = "Sending game state. Current player before sending: ";
     public static final String debugLogMsg3 = "Loading received game state";
     public static final String debugLogMsg4 = "Invalid move by ";
-    public static final String debugLogMsg8 = "Updated board state: ";
     public static final String debugLogMsg9 = "Current player after update: ";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     private static final String errorLogFile = "error_log.txt";

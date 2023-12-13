@@ -22,3 +22,11 @@
 [ERROR] 2023/11/24 07:54:23: null
 [ERROR] 2023/11/24 07:54:23: Socket closed
 [ERROR] 2023/11/24 07:54:24: Socket closed
+[ERROR] 2023/11/24 16:16:39: null
+[ERROR] 2023/11/24 16:16:40: Socket closed
+[ERROR] 2023/12/13 08:04:45: null
+[ERROR] 2023/12/13 08:04:45: Socket closed
+[ERROR] 2023/12/13 08:04:46: Socket closed
+[ERROR] 2023/12/13 09:49:10: java.io.FileNotFoundException: C:\Users\Korisnik\Desktop\GO_game_Java2\go-game\src\hr\gregl\gogame\game\xml\replay.xml (The system cannot find the path specified)
+[ERROR] 2023/12/13 09:58:49: The system cannot find the path specified
+[ERROR] 2023/12/13 09:58:49: java.io.FileNotFoundException: C:\Users\Korisnik\Desktop\GO_game_Java2\go-game\src\hr\gregl\gogame\game\xml\replay.xml (The system cannot find the path specified)

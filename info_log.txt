@@ -27397,3 +27397,265 @@
 [INFO] 2023/11/24 07:54:18: RX: SERVER: edwedwedwd
 [INFO] 2023/11/24 07:54:20: TX: CLIENT: wdwed
 [INFO] 2023/11/24 07:54:20: RX: CLIENT: wdwed
+[INFO] 2023/11/24 16:16:09: Server check: No server running on port 49155
+[INFO] 2023/11/24 16:16:09: Server is running...
+[INFO] 2023/11/24 16:16:09: Server successfully started on port 49155
+[INFO] 2023/11/24 16:16:18: Client is running...
+[INFO] 2023/11/24 16:16:18: Client connected to server on port 49155
+[INFO] 2023/11/24 16:16:18: Client successfully connected to server at localhost:49155
+[DEBUG] 2023/11/24 16:16:24: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/11/24 16:16:24: Placing stone at: 13, 9 by player 1
+[DEBUG] 2023/11/24 16:16:24: Sending game state. Current player before sending: 2
+[INFO] 2023/11/24 16:16:24: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=180, whiteStonesLeft=180, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:24: Loading received game state
+[DEBUG] 2023/11/24 16:16:24: Current player after update: 2
+[DEBUG] 2023/11/24 16:16:25: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/11/24 16:16:25: Placing stone at: 7, 1 by player 2
+[DEBUG] 2023/11/24 16:16:25: Sending game state. Current player before sending: 1
+[INFO] 2023/11/24 16:16:25: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=180, whiteStonesLeft=179, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:25: Loading received game state
+[DEBUG] 2023/11/24 16:16:25: Current player after update: 1
+[DEBUG] 2023/11/24 16:16:26: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/11/24 16:16:26: Placing stone at: 6, 11 by player 1
+[DEBUG] 2023/11/24 16:16:26: Sending game state. Current player before sending: 2
+[INFO] 2023/11/24 16:16:26: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=179, whiteStonesLeft=179, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:26: Loading received game state
+[DEBUG] 2023/11/24 16:16:26: Current player after update: 2
+[DEBUG] 2023/11/24 16:16:26: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/11/24 16:16:26: Placing stone at: 6, 2 by player 2
+[DEBUG] 2023/11/24 16:16:26: Sending game state. Current player before sending: 1
+[INFO] 2023/11/24 16:16:26: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=179, whiteStonesLeft=178, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:26: Loading received game state
+[DEBUG] 2023/11/24 16:16:26: Current player after update: 1
+[DEBUG] 2023/11/24 16:16:27: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/11/24 16:16:27: Placing stone at: 8, 14 by player 1
+[DEBUG] 2023/11/24 16:16:27: Sending game state. Current player before sending: 2
+[INFO] 2023/11/24 16:16:27: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=178, whiteStonesLeft=178, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:27: Loading received game state
+[DEBUG] 2023/11/24 16:16:27: Current player after update: 2
+[DEBUG] 2023/11/24 16:16:28: handleCellClick: Click event received by user: [SERVER]
+[DEBUG] 2023/11/24 16:16:28: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/11/24 16:16:28: Placing stone at: 11, 0 by player 2
+[DEBUG] 2023/11/24 16:16:28: Sending game state. Current player before sending: 1
+[INFO] 2023/11/24 16:16:28: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=178, whiteStonesLeft=177, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:28: Loading received game state
+[DEBUG] 2023/11/24 16:16:28: Current player after update: 1
+[DEBUG] 2023/11/24 16:16:29: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/11/24 16:16:29: Placing stone at: 11, 11 by player 1
+[DEBUG] 2023/11/24 16:16:29: Sending game state. Current player before sending: 2
+[INFO] 2023/11/24 16:16:29: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=177, whiteStonesLeft=177, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:29: Loading received game state
+[DEBUG] 2023/11/24 16:16:29: Current player after update: 2
+[DEBUG] 2023/11/24 16:16:29: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/11/24 16:16:29: Placing stone at: 9, 4 by player 2
+[DEBUG] 2023/11/24 16:16:29: Sending game state. Current player before sending: 1
+[INFO] 2023/11/24 16:16:29: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=177, whiteStonesLeft=176, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:29: Loading received game state
+[DEBUG] 2023/11/24 16:16:29: Current player after update: 1
+[DEBUG] 2023/11/24 16:16:30: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/11/24 16:16:30: Placing stone at: 5, 16 by player 1
+[DEBUG] 2023/11/24 16:16:30: Sending game state. Current player before sending: 2
+[INFO] 2023/11/24 16:16:30: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=176, whiteStonesLeft=176, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:30: Loading received game state
+[DEBUG] 2023/11/24 16:16:30: Current player after update: 2
+[DEBUG] 2023/11/24 16:16:31: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/11/24 16:16:31: Placing stone at: 4, 5 by player 2
+[DEBUG] 2023/11/24 16:16:31: Sending game state. Current player before sending: 1
+[INFO] 2023/11/24 16:16:31: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=176, whiteStonesLeft=175, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:31: Loading received game state
+[DEBUG] 2023/11/24 16:16:31: Current player after update: 1
+[INFO] 2023/11/24 16:16:33: TX: SERVER: dwwdw
+[INFO] 2023/11/24 16:16:33: RX: SERVER: dwwdw
+[INFO] 2023/11/24 16:16:35: TX: CLIENT: wwwww
+[INFO] 2023/11/24 16:16:35: RX: CLIENT: wwwww
+[DEBUG] 2023/11/24 16:16:36: handleCellClick: Click event received by user: [CLIENT]
+[DEBUG] 2023/11/24 16:16:36: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/11/24 16:16:36: Placing stone at: 13, 11 by player 1
+[DEBUG] 2023/11/24 16:16:36: Sending game state. Current player before sending: 2
+[INFO] 2023/11/24 16:16:36: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=175, whiteStonesLeft=175, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:36: Loading received game state
+[DEBUG] 2023/11/24 16:16:36: Current player after update: 2
+[DEBUG] 2023/11/24 16:16:37: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/11/24 16:16:37: Placing stone at: 5, 2 by player 2
+[DEBUG] 2023/11/24 16:16:37: Sending game state. Current player before sending: 1
+[INFO] 2023/11/24 16:16:37: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=175, whiteStonesLeft=174, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:37: Loading received game state
+[DEBUG] 2023/11/24 16:16:37: Current player after update: 1
+[DEBUG] 2023/11/24 16:16:37: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/11/24 16:16:37: Placing stone at: 5, 8 by player 1
+[DEBUG] 2023/11/24 16:16:37: Sending game state. Current player before sending: 2
+[INFO] 2023/11/24 16:16:37: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=174, whiteStonesLeft=174, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/11/24 16:16:37: Loading received game state
+[DEBUG] 2023/11/24 16:16:37: Current player after update: 2
+[INFO] 2023/11/24 16:16:38: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=174, whiteStonesLeft=174, currentPlayer=2, isGameOver=true}
+[DEBUG] 2023/11/24 16:16:38: Loading received game state
+[DEBUG] 2023/11/24 16:16:38: Current player after update: 2
+[INFO] 2023/12/13 08:03:58: Server check: No server running on port 49155
+[INFO] 2023/12/13 08:03:58: Server is running...
+[INFO] 2023/12/13 08:03:58: Server successfully started on port 49155
+[INFO] 2023/12/13 08:04:10: Client is running...
+[INFO] 2023/12/13 08:04:10: Client connected to server on port 49155
+[INFO] 2023/12/13 08:04:10: Client successfully connected to server at localhost:49155
+[DEBUG] 2023/12/13 08:04:16: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/12/13 08:04:16: Placing stone at: 9, 9 by player 1
+[DEBUG] 2023/12/13 08:04:16: Sending game state. Current player before sending: 2
+[INFO] 2023/12/13 08:04:16: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=180, whiteStonesLeft=180, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:16: Loading received game state
+[DEBUG] 2023/12/13 08:04:16: Current player after update: 2
+[DEBUG] 2023/12/13 08:04:16: handleCellClick: Click event received by user: [SERVER]
+[DEBUG] 2023/12/13 08:04:17: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/12/13 08:04:17: Placing stone at: 6, 6 by player 2
+[DEBUG] 2023/12/13 08:04:17: Sending game state. Current player before sending: 1
+[INFO] 2023/12/13 08:04:17: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=180, whiteStonesLeft=179, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:17: Loading received game state
+[DEBUG] 2023/12/13 08:04:17: Current player after update: 1
+[DEBUG] 2023/12/13 08:04:18: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/12/13 08:04:18: Placing stone at: 12, 18 by player 1
+[DEBUG] 2023/12/13 08:04:18: Sending game state. Current player before sending: 2
+[INFO] 2023/12/13 08:04:18: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=179, whiteStonesLeft=179, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:18: Loading received game state
+[DEBUG] 2023/12/13 08:04:18: Current player after update: 2
+[DEBUG] 2023/12/13 08:04:18: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/12/13 08:04:18: Placing stone at: 5, 7 by player 2
+[DEBUG] 2023/12/13 08:04:18: Sending game state. Current player before sending: 1
+[INFO] 2023/12/13 08:04:18: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=179, whiteStonesLeft=178, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:18: Loading received game state
+[DEBUG] 2023/12/13 08:04:18: Current player after update: 1
+[DEBUG] 2023/12/13 08:04:19: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/12/13 08:04:19: Placing stone at: 14, 14 by player 1
+[DEBUG] 2023/12/13 08:04:19: Sending game state. Current player before sending: 2
+[INFO] 2023/12/13 08:04:19: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=178, whiteStonesLeft=178, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:19: Loading received game state
+[DEBUG] 2023/12/13 08:04:19: Current player after update: 2
+[DEBUG] 2023/12/13 08:04:19: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/12/13 08:04:19: Placing stone at: 4, 6 by player 2
+[DEBUG] 2023/12/13 08:04:19: Sending game state. Current player before sending: 1
+[INFO] 2023/12/13 08:04:19: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=178, whiteStonesLeft=177, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:19: Loading received game state
+[DEBUG] 2023/12/13 08:04:19: Current player after update: 1
+[DEBUG] 2023/12/13 08:04:21: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/12/13 08:04:21: Placing stone at: 10, 5 by player 1
+[DEBUG] 2023/12/13 08:04:21: Sending game state. Current player before sending: 2
+[INFO] 2023/12/13 08:04:21: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=177, whiteStonesLeft=177, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:21: Loading received game state
+[DEBUG] 2023/12/13 08:04:21: Current player after update: 2
+[DEBUG] 2023/12/13 08:04:22: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/12/13 08:04:22: Placing stone at: 6, 13 by player 2
+[DEBUG] 2023/12/13 08:04:22: Sending game state. Current player before sending: 1
+[INFO] 2023/12/13 08:04:22: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=177, whiteStonesLeft=176, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:22: Loading received game state
+[DEBUG] 2023/12/13 08:04:22: Current player after update: 1
+[DEBUG] 2023/12/13 08:04:24: handleCellClick: Click event received by user: [SERVER]
+[INFO] 2023/12/13 08:04:24: Placing stone at: 5, 6 by player 1
+[DEBUG] 2023/12/13 08:04:24: Sending game state. Current player before sending: 2
+[INFO] 2023/12/13 08:04:24: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=0, boardSize=19, blackStonesLeft=176, whiteStonesLeft=176, currentPlayer=2, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:24: Loading received game state
+[DEBUG] 2023/12/13 08:04:24: Current player after update: 2
+[DEBUG] 2023/12/13 08:04:26: handleCellClick: Click event received by user: [CLIENT]
+[INFO] 2023/12/13 08:04:26: Placing stone at: 5, 5 by player 2
+[DEBUG] 2023/12/13 08:04:26: Sending game state. Current player before sending: 1
+[INFO] 2023/12/13 08:04:26: Game state received: GameSaveState{, blackCaptures=0, whiteCaptures=1, boardSize=19, blackStonesLeft=176, whiteStonesLeft=175, currentPlayer=1, isGameOver=false}
+[DEBUG] 2023/12/13 08:04:26: Loading received game state
+[DEBUG] 2023/12/13 08:04:26: Current player after update: 1
+[INFO] 2023/12/13 08:04:34: TX: SERVER: bravo!!!!!!!!!!!!
+[INFO] 2023/12/13 08:04:34: RX: SERVER: bravo!!!!!!!!!!!!
+[INFO] 2023/12/13 08:04:40: TX: CLIENT: XD
+[INFO] 2023/12/13 08:04:40: RX: CLIENT: XD
+[DEBUG] 2023/12/13 09:49:10: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 09:49:10: Placing stone at: 8, 7 by player 1
+[DEBUG] 2023/12/13 09:58:49: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 09:58:49: Placing stone at: 7, 7 by player 1
+[DEBUG] 2023/12/13 10:02:38: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:38: Placing stone at: 9, 8 by player 1
+[DEBUG] 2023/12/13 10:02:43: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:43: Placing stone at: 9, 12 by player 2
+[DEBUG] 2023/12/13 10:02:43: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:43: Placing stone at: 6, 11 by player 1
+[DEBUG] 2023/12/13 10:02:44: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:44: Placing stone at: 12, 10 by player 2
+[DEBUG] 2023/12/13 10:02:44: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:44: Placing stone at: 12, 6 by player 1
+[DEBUG] 2023/12/13 10:02:45: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:45: Placing stone at: 5, 5 by player 2
+[DEBUG] 2023/12/13 10:02:46: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:46: Placing stone at: 5, 11 by player 1
+[DEBUG] 2023/12/13 10:02:47: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:47: Placing stone at: 7, 8 by player 2
+[DEBUG] 2023/12/13 10:02:47: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:47: Placing stone at: 8, 6 by player 1
+[DEBUG] 2023/12/13 10:02:47: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:47: Placing stone at: 11, 8 by player 2
+[DEBUG] 2023/12/13 10:02:47: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:47: Placing stone at: 8, 10 by player 1
+[DEBUG] 2023/12/13 10:02:48: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:48: Placing stone at: 10, 5 by player 2
+[DEBUG] 2023/12/13 10:02:48: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:48: Placing stone at: 13, 4 by player 1
+[DEBUG] 2023/12/13 10:02:49: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:49: Placing stone at: 16, 5 by player 2
+[DEBUG] 2023/12/13 10:02:49: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:49: Placing stone at: 15, 12 by player 1
+[DEBUG] 2023/12/13 10:02:49: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:49: Placing stone at: 11, 14 by player 2
+[DEBUG] 2023/12/13 10:02:50: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:50: Placing stone at: 14, 9 by player 1
+[DEBUG] 2023/12/13 10:02:50: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:50: Placing stone at: 16, 8 by player 2
+[DEBUG] 2023/12/13 10:02:50: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:02:50: Placing stone at: 13, 8 by player 1
+[DEBUG] 2023/12/13 10:41:16: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:41:16: Placing stone at: 8, 9 by player 1
+[DEBUG] 2023/12/13 10:41:17: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:41:17: Placing stone at: 10, 8 by player 2
+[DEBUG] 2023/12/13 10:41:17: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:41:17: Placing stone at: 6, 7 by player 1
+[DEBUG] 2023/12/13 10:41:17: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:41:17: Placing stone at: 6, 13 by player 2
+[DEBUG] 2023/12/13 10:41:18: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:41:18: Placing stone at: 13, 12 by player 1
+[DEBUG] 2023/12/13 10:41:18: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:41:18: Placing stone at: 7, 5 by player 2
+[DEBUG] 2023/12/13 10:41:37: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:41:37: Placing stone at: 6, 7 by player 1
+[DEBUG] 2023/12/13 10:41:37: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:41:37: Placing stone at: 10, 9 by player 2
+[DEBUG] 2023/12/13 10:52:50: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:52:50: Placing stone at: 8, 10 by player 1
+[DEBUG] 2023/12/13 10:52:57: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:52:57: Placing stone at: 8, 7 by player 2
+[DEBUG] 2023/12/13 10:52:58: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:52:58: Placing stone at: 5, 12 by player 1
+[DEBUG] 2023/12/13 10:52:58: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:52:58: Placing stone at: 12, 11 by player 2
+[DEBUG] 2023/12/13 10:52:59: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:52:59: Placing stone at: 3, 10 by player 1
+[DEBUG] 2023/12/13 10:52:59: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:52:59: Placing stone at: 9, 9 by player 2
+[DEBUG] 2023/12/13 10:53:00: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:00: Placing stone at: 4, 5 by player 1
+[DEBUG] 2023/12/13 10:53:00: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:00: Placing stone at: 9, 7 by player 2
+[DEBUG] 2023/12/13 10:53:01: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:01: Placing stone at: 6, 14 by player 1
+[DEBUG] 2023/12/13 10:53:01: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:01: Placing stone at: 6, 9 by player 2
+[DEBUG] 2023/12/13 10:53:01: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:01: Placing stone at: 12, 8 by player 1
+[DEBUG] 2023/12/13 10:53:02: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:02: Placing stone at: 8, 4 by player 2
+[DEBUG] 2023/12/13 10:53:02: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:02: Placing stone at: 9, 12 by player 1
+[DEBUG] 2023/12/13 10:53:02: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:02: Placing stone at: 10, 5 by player 2
+[DEBUG] 2023/12/13 10:53:02: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:02: Placing stone at: 6, 6 by player 1
+[DEBUG] 2023/12/13 10:53:03: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:03: Placing stone at: 11, 6 by player 2
+[DEBUG] 2023/12/13 10:53:51: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:51: Placing stone at: 6, 8 by player 1
+[DEBUG] 2023/12/13 10:53:51: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:51: Placing stone at: 11, 5 by player 2
+[DEBUG] 2023/12/13 10:53:51: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:51: Placing stone at: 7, 12 by player 1
+[DEBUG] 2023/12/13 10:53:51: handleCellClick: Click event received by user: [SINGLE_PLAYER]
+[INFO] 2023/12/13 10:53:51: Placing stone at: 3, 10 by player 2

@@ -1,7 +1,6 @@
 package hr.gregl.gogame.game.controller;
 
 //region Imports
-
 import hr.gregl.gogame.game.config.GameConfig;
 import hr.gregl.gogame.game.model.GameLogic;
 import hr.gregl.gogame.game.model.UserType;
@@ -9,6 +8,7 @@ import hr.gregl.gogame.game.utility.*;
 import hr.gregl.gogame.game.MainApplication;
 import hr.gregl.gogame.game.networking.GameClient;
 import hr.gregl.gogame.game.networking.GameServer;
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -19,8 +19,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import hr.gregl.gogame.game.networking.GameStateUpdateListener;
+import hr.gregl.gogame.game.model.GameMove;
+import javafx.util.Duration;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 //endregion
 
 public class GameController implements GameStateUpdateListener, CellClickHandler {
@@ -78,6 +83,9 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
     @FXML
     public ScrollPane scrollPaneMsgReceived;
     //endregion
+    // region Game Replay
+    private final List<GameMove> gameMoves = new ArrayList<>();
+    //endregion
 
     private boolean isGameOver = false;
 
@@ -130,6 +138,11 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
 
         if (MainApplication.getUserType() == UserType.SINGLE_PLAYER) {
             updateCurrentPlayerLbl(clickedPane);
+            // game replay
+            GameReplayUtil.getInstance().ensureReplayFileExists();
+            GameMove move = new GameMove(currentPlayerBeforeMove, gameRow, gameCol);
+            gameMoves.add(move);
+            GameReplayUtil.getInstance().saveGameReplay(gameMoves);
         }
 
         Circle stone = new Circle(clickedPane.getWidth() / 2, clickedPane.getHeight() / 2, clickedPane.getWidth() / 2 - 5);
@@ -426,10 +439,7 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
         if (message != null && !message.isEmpty()) {
             LogUtil.logInfo("TX: " + MainApplication.getUserType().toString() + ": " + message);
             MessageState messageState = new MessageState(message, MainApplication.getUserType().toString());
-            Platform.runLater(() -> {
-                textAreaMsgReceive.appendText(MainApplication.getUserType().toString() + ": " + message + "\n");
-                //scrollPaneMsgReceived.setVvalue(1.0);
-            });
+            Platform.runLater(() -> textAreaMsgReceive.appendText(MainApplication.getUserType().toString() + ": " + message + "\n"));
             if (MainApplication.getUserType() == UserType.SERVER && gameServer != null) {
                 gameServer.sendMessageToClient(messageState);
             } else if (MainApplication.getUserType() == UserType.CLIENT && gameClient != null) {
@@ -442,9 +452,53 @@ public class GameController implements GameStateUpdateListener, CellClickHandler
     @Override
     public void onMessageReceived(MessageState messageState) {
         LogUtil.logInfo("RX: " + messageState.getSender() + ": " + messageState.getMessage());
-        Platform.runLater(() -> {
-            textAreaMsgReceive.appendText(messageState.getSender() + ": " + messageState.getMessage() + "\n");
-            //scrollPaneMsgReceived.setVvalue(1.0);
-        });
+        Platform.runLater(() -> textAreaMsgReceive.appendText(messageState.getSender() + ": " + messageState.getMessage() + "\n"));
     }
+
+    @FXML
+    public void handleReplay() {
+        List<GameMove> replayMoves = GameReplayUtil.getInstance().loadGameReplay();
+        if (replayMoves.isEmpty()) {
+            showReplayAlert();
+            return;
+        }
+
+        handleRestart();
+        AtomicInteger moveIndex = new AtomicInteger(0);
+
+        PauseTransition pause = new PauseTransition(Duration.seconds(1));
+        pause.setOnFinished(event -> {
+            if (moveIndex.get() < replayMoves.size()) {
+                GameMove move = replayMoves.get(moveIndex.getAndIncrement());
+                replayMove(move);
+                pause.playFromStart();
+            }
+        });
+
+        pause.play();
+    }
+
+    private void replayMove(GameMove move) {
+        int currentPlayerBeforeMove = move.getPlayer();
+        gameLogic.placeStone(move.getRow(), move.getColumn(), currentPlayerBeforeMove);
+
+        Circle stone = new Circle(boardGrid.getWidth() / 2, boardGrid.getHeight() / 2, boardGrid.getWidth() / 2 - 5);
+        stone.setFill(currentPlayerBeforeMove == 1 ? Color.BLACK : Color.WHITE);
+
+        Pane cell = getPaneFromGrid(boardGrid, move.getRow() + 1, move.getColumn() + 1);
+        if (cell != null) {
+            cell.getChildren().add(stone);
+        }
+
+        gameLogic.switchCurrentPlayer();
+        updateCaptureLabels();
+        refreshBoard();
+        updateStonesLeftLabels();
+        isGameOver = gameOverCheck();
+    }
+
+    private void showReplayAlert() {
+        winnerLabel.setText("No replay moves found!");
+    }
+
 }
