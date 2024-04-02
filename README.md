@@ -1,2 +1,2 @@
-# game "GO"
-run game with "javafx:run -f pom.xml"
+# Desktop multiplayer game using JavaFX
+#### Japanese game "GO" with local multiplayer
